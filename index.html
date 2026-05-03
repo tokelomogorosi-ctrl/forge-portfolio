@@ -3,654 +3,584 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Tokelo Mogorosi · Conversion Forge · Autonomous Operator</title>
-<meta name="description" content="Conversion Forge. The autonomous business engine. Built and operated by Tokelo Mogorosi from Sevenoaks, Kent.">
+<title>Tokelo Mogorosi, Conversion Forge, The autonomous business engine</title>
+<meta name="description" content="Tokelo Mogorosi runs Conversion Forge from Sevenoaks. The autonomous business engine for UK small businesses. Lead generation, content, outreach, and a live pipeline that runs while the operator sleeps." />
+<meta property="og:title" content="Tokelo Mogorosi, Conversion Forge">
+<meta property="og:description" content="The autonomous business engine. Built and operated from Sevenoaks.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://tokelomogorosi-ctrl.github.io/forge-portfolio/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Fraunces:opsz,wght@9..144,300;9..144,700;9..144,900&family=Inter:wght@300;400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
 <style>
 :root {
-  --black: #080808;
-  --ink: #111111;
-  --raise: #181818;
-  --orange: #E85D04;
-  --gold: #C9A84C;
-  --offwhite: #F0EDE6;
-  --dim: rgba(240,237,230,0.55);
-  --faint: rgba(240,237,230,0.18);
-  --line: rgba(240,237,230,0.10);
+  --teal: #4DD9D5; --teal-dark: #2BB8B4; --teal-light: #F0FFFE; --teal-mid: #E0FAF9;
+  --charcoal: #1A1A1A; --charcoal-deep: #111111; --body: #2D2D2D;
+  --muted: #666666; --muted-soft: #999999; --hairline: #E8E8E8;
+  --white: #FFFFFF; --light: #F8F8F8;
+  --shadow: 0 4px 24px rgba(0,0,0,0.08);
+  --shadow-lg: 0 12px 48px rgba(0,0,0,0.12);
+  --shadow-card-dark: 0 12px 48px rgba(0,0,0,0.4);
+  --radius: 12px; --radius-sm: 6px; --radius-lg: 16px;
+  --font: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{
-  background:var(--black);color:var(--offwhite);
-  font-family:'Inter',system-ui,sans-serif;
-  -webkit-font-smoothing:antialiased;
-  overflow-x:hidden;
-}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--font); color: var(--body); background: var(--white); line-height: 1.6; font-size: 16px; -webkit-font-smoothing: antialiased; }
+a { color: var(--teal); text-decoration: none; }
+a:hover { color: var(--teal-dark); }
+.container { max-width: 1140px; margin: 0 auto; padding: 0 2rem; }
 
-/* ─── Type ───────────────────────────────────────────────────── */
-.display{font-family:'Anton',sans-serif;text-transform:uppercase;letter-spacing:-0.012em;line-height:0.86}
-.serif{font-family:'Fraunces',Georgia,serif;font-variation-settings:"opsz" 144}
-.mono{font-family:'IBM Plex Mono',monospace}
-.lbl{font-size:10px;font-weight:600;letter-spacing:0.28em;text-transform:uppercase;opacity:0.55;font-family:'IBM Plex Mono',monospace}
+/* Nav */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(255,255,255,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--hairline); }
+.nav-inner { max-width: 1140px; margin: 0 auto; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+.nav-logo { display: flex; align-items: center; gap: 0.6rem; }
+.logo-mark { width: 32px; height: 32px; border-radius: 8px; background: var(--teal); display: flex; align-items: center; justify-content: center; font-weight: 900; color: var(--charcoal); font-size: 14px; letter-spacing: -0.02em; }
+.logo-text { font-size: 1rem; font-weight: 900; letter-spacing: 0.08em; color: var(--charcoal); }
+.logo-text .accent { color: var(--teal); }
+.nav-links { display: flex; align-items: center; gap: 2rem; }
+.nav-links a { color: var(--muted); font-size: 0.9rem; font-weight: 500; transition: color 200ms; }
+.nav-links a:hover { color: var(--teal); }
+.btn-nav { background: var(--teal); color: var(--charcoal) !important; padding: 0.5rem 1.2rem; border-radius: var(--radius-sm); font-weight: 700 !important; font-size: 0.85rem !important; transition: background 200ms, transform 100ms; }
+.btn-nav:hover { background: var(--teal-dark) !important; transform: translateY(-1px); }
+@media (max-width: 768px) { .nav-links a:not(.btn-nav) { display: none; } }
 
-/* ─── Grain ──────────────────────────────────────────────────── */
-body::before{
-  content:'';position:fixed;inset:0;pointer-events:none;z-index:1;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-  background-size:200px;opacity:0.04;mix-blend-mode:overlay;
-}
+/* Eyebrow */
+.eyebrow-wrap { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1.25rem; }
+.eyebrow-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--teal); }
+.eyebrow { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); }
 
-/* ─── Top chrome ─────────────────────────────────────────────── */
-.topbar{
-  position:fixed;top:0;left:0;right:0;z-index:50;
-  padding:22px 5vw;display:flex;justify-content:space-between;align-items:center;
-  background:linear-gradient(180deg,rgba(8,8,8,0.85) 0%,rgba(8,8,8,0) 100%);
-  backdrop-filter:blur(6px);
-}
-.brand{font-family:'Anton',sans-serif;font-size:18px;letter-spacing:0.06em}
-.brand span{color:var(--orange)}
-.live{
-  display:flex;align-items:center;gap:10px;
-  font-size:10px;letter-spacing:0.2em;text-transform:uppercase;
-  font-family:'IBM Plex Mono',monospace;color:var(--dim);
-}
-.live-dot{width:7px;height:7px;border-radius:50%;background:var(--orange);box-shadow:0 0 12px var(--orange);animation:pulse 1.8s ease-in-out infinite}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.55;transform:scale(0.85)}}
+/* Type */
+h1.display { font-size: clamp(2.4rem, 5vw, 3.6rem); font-weight: 900; line-height: 1.08; letter-spacing: -0.032em; color: var(--charcoal); margin-bottom: 1.5rem; }
+h2 { font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 900; line-height: 1.15; letter-spacing: -0.03em; margin-bottom: 1rem; color: var(--charcoal); }
+h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--charcoal); line-height: 1.25; }
+.teal { color: var(--teal); }
+.teal-underline { position: relative; color: var(--teal); }
+.teal-underline::after { content: ''; position: absolute; bottom: -3px; left: 0; right: 0; height: 3px; background: var(--teal); border-radius: 2px; opacity: 0.4; }
+.lede { font-size: 1.05rem; color: var(--muted); margin-bottom: 3rem; max-width: 560px; }
+.muted { color: var(--muted); }
 
-/* ─── Hero ──────────────────────────────────────────────────── */
-.hero{
-  min-height:100vh;padding:18vh 5vw 8vh;display:flex;flex-direction:column;justify-content:center;
-  position:relative;overflow:hidden;
-}
-.hero::before{
-  content:'';position:absolute;right:-10vw;top:-20%;bottom:-10%;width:1px;
-  background:var(--orange);transform:rotate(-9deg);opacity:0.22;
-}
-.hero::after{
-  content:'';position:absolute;right:6vw;top:-30%;bottom:0;width:1px;
-  background:var(--gold);transform:rotate(-9deg);opacity:0.10;
-}
-.hero-bgword{
-  position:absolute;left:-1vw;bottom:-3vw;
-  font-family:'Anton',sans-serif;font-size:clamp(180px,28vw,420px);
-  color:var(--orange);opacity:0.04;letter-spacing:-0.05em;line-height:0.85;
-  pointer-events:none;user-select:none;text-transform:uppercase;
-}
-.hero-rail{
-  position:absolute;left:24px;top:50%;transform:translateY(-50%) rotate(-90deg);transform-origin:center;
-  font-size:9px;letter-spacing:0.25em;text-transform:uppercase;opacity:0.28;
-  font-family:'IBM Plex Mono',monospace;white-space:nowrap;
-}
-.hero-meta{display:flex;gap:18px;align-items:center;margin-bottom:32px;flex-wrap:wrap}
-.tag{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:7px 14px;border:1px solid var(--line);border-radius:999px;
-  font-size:10px;letter-spacing:0.18em;text-transform:uppercase;
-  font-family:'IBM Plex Mono',monospace;color:var(--dim);
-}
-.tag.hot{border-color:var(--orange);color:var(--orange)}
-.hero h1{
-  font-size:clamp(56px,11vw,180px);margin-bottom:30px;
-  font-family:'Anton',sans-serif;text-transform:uppercase;letter-spacing:-0.02em;line-height:0.86;
-}
-.hero h1 .o{color:var(--orange)}
-.hero h1 .thin{
-  font-family:'Fraunces',serif;font-weight:300;font-style:italic;
-  text-transform:lowercase;letter-spacing:-0.01em;color:var(--gold);
-  font-variation-settings:"opsz" 144;
-}
-.hero-sub{
-  font-size:clamp(17px,1.6vw,21px);max-width:600px;color:var(--dim);
-  line-height:1.6;margin-bottom:42px;
-}
-.hero-sub strong{color:var(--offwhite);font-weight:500}
-.hero-grid{
-  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;
-  border-top:1px solid var(--line);max-width:880px;
-}
-.hero-grid > div{padding:18px 22px 18px 0;border-right:1px solid var(--line)}
-.hero-grid > div:last-child{border-right:none}
-.hero-grid .v{font-family:'Anton',sans-serif;font-size:32px;color:var(--orange);line-height:1;margin-bottom:6px}
-.hero-grid .l{font-size:10px;letter-spacing:0.18em;text-transform:uppercase;opacity:0.5;font-family:'IBM Plex Mono',monospace}
+/* Sections */
+section { padding: 6rem 2rem; }
+.section-white { background: var(--white); }
+.section-teal-light { background: var(--teal-light); }
+.section-soft { background: var(--light); }
+.section-dark { background: var(--charcoal-deep); }
+.section-dark h2, .section-dark h3 { color: var(--white); }
+.section-dark .lede { color: #aaa; }
+@media (max-width: 768px) { section { padding: 4rem 1.5rem; } }
 
-/* ─── Section base ───────────────────────────────────────────── */
-section{padding:14vh 5vw;position:relative;z-index:2}
-.section-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:7vh;flex-wrap:wrap;gap:2rem}
-.section-head h2{font-size:clamp(46px,8vw,124px);font-family:'Anton',sans-serif;text-transform:uppercase;letter-spacing:-0.012em;line-height:0.86}
-.section-head h2 .o{color:var(--orange)}
-.section-head h2 .thin{font-family:'Fraunces',serif;font-weight:300;font-style:italic;text-transform:lowercase;color:var(--gold);font-variation-settings:"opsz" 144}
-.section-head .lede{max-width:420px;font-size:14px;color:var(--dim);line-height:1.65}
-.lblblock{display:block;margin-bottom:14px}
+/* Hero */
+.hero { padding: 8rem 2rem 5rem; }
+.hero-inner { max-width: 1140px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+@media (max-width: 768px) { .hero { padding: 6rem 1.5rem 3rem; } .hero-inner { grid-template-columns: 1fr; gap: 2rem; } .hero-visual { display: none; } }
+.hero-sub { font-size: 1.1rem; color: var(--muted); margin-bottom: 2rem; max-width: 480px; }
+.hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
 
-/* ─── Reveal ─────────────────────────────────────────────────── */
-.r{opacity:0;transform:translateY(28px);transition:opacity 0.7s cubic-bezier(.22,1,.36,1),transform 0.7s cubic-bezier(.22,1,.36,1)}
-.r.on{opacity:1;transform:translateY(0)}
-.r.d1{transition-delay:.06s}.r.d2{transition-delay:.12s}.r.d3{transition-delay:.18s}.r.d4{transition-delay:.24s}.r.d5{transition-delay:.30s}
+/* Trust strip */
+.trust-strip { display: flex; align-items: center; gap: 1.5rem; padding: 1.2rem 1.5rem; background: var(--light); border-radius: var(--radius); border: 1px solid var(--hairline); max-width: 480px; }
+.trust-item { text-align: center; flex: 1; }
+.trust-item strong { display: block; font-size: 1.3rem; font-weight: 900; color: var(--charcoal); line-height: 1; margin-bottom: 0.2rem; }
+.trust-item span { font-size: 0.75rem; color: var(--muted); }
+.trust-divider { width: 1px; height: 36px; background: var(--hairline); }
+@media (max-width: 480px) { .trust-strip { flex-wrap: wrap; justify-content: center; } }
 
-/* ─── Proof strip ────────────────────────────────────────────── */
-.proof{background:var(--ink);padding:6vh 5vw;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-.proof-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;max-width:1200px;margin:0 auto}
-.proof-grid > div{padding:24px 28px;border-right:1px solid var(--line)}
-.proof-grid > div:last-child{border-right:none}
-.proof-grid .v{font-family:'Anton',sans-serif;font-size:clamp(42px,5vw,72px);color:var(--orange);line-height:1;margin-bottom:8px}
-.proof-grid .l{font-size:11px;letter-spacing:0.16em;text-transform:uppercase;opacity:0.55;font-family:'IBM Plex Mono',monospace;line-height:1.5}
-@media (max-width:760px){.proof-grid{grid-template-columns:repeat(2,1fr)}.proof-grid > div{border-right:none;border-bottom:1px solid var(--line)}}
+/* Pipeline card */
+.hero-visual { display: flex; justify-content: center; }
+.pipeline-card { background: var(--charcoal); border-radius: var(--radius-lg); padding: 1.5rem; width: 100%; max-width: 380px; box-shadow: var(--shadow-card-dark); }
+.card-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1.2rem; }
+.card-dot { width: 10px; height: 10px; border-radius: 50%; }
+.card-dot.green { background: #34C759; }
+.card-dot.yellow { background: #FFCC00; }
+.card-dot.red { background: #FF3B30; }
+.card-title { font-size: 0.8rem; color: #888; margin-left: 0.5rem; font-weight: 500; }
+.pipeline-items { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.2rem; }
+.pipeline-item { display: flex; align-items: center; gap: 0.75rem; background: rgba(255,255,255,0.05); border-radius: var(--radius-sm); padding: 0.75rem; }
+.pipe-icon { width: 28px; height: 28px; border-radius: var(--radius-sm); background: var(--teal); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--charcoal); font-weight: 900; font-size: 12px; }
+.pipe-text { display: flex; flex-direction: column; gap: 0.2rem; flex: 1; min-width: 0; }
+.pipe-name { font-size: 0.8rem; font-weight: 600; color: var(--white); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pipe-status { font-size: 0.7rem; font-weight: 600; border-radius: 4px; padding: 0.1rem 0.4rem; display: inline-block; width: fit-content; }
+.pipe-status.live { background: rgba(77,217,213,0.2); color: var(--teal); }
+.pipe-status.shipped { background: rgba(52,199,89,0.2); color: #34C759; }
+.pipe-status.flight { background: rgba(255,204,0,0.2); color: #FFCC00; }
+.card-footer { display: flex; align-items: center; gap: 0.5rem; font-size: 0.75rem; color: #888; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1rem; }
+.pulse-dot { width: 8px; height: 8px; border-radius: 50%; background: #34C759; animation: pulse 2s ease-in-out infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
 
-/* ─── Work / Case studies ───────────────────────────────────── */
-.work-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;margin-top:4vh}
-.case{
-  background:var(--ink);border:1px solid var(--line);border-radius:18px;
-  padding:36px 32px;position:relative;overflow:hidden;
-  transition:border-color 0.3s ease,transform 0.3s ease;
-  display:flex;flex-direction:column;gap:18px;
-  min-height:340px;
-}
-.case:hover{border-color:var(--orange);transform:translateY(-4px)}
-.case::after{
-  content:attr(data-num);position:absolute;right:18px;top:14px;
-  font-family:'Anton',sans-serif;font-size:88px;color:var(--orange);
-  opacity:0.07;line-height:1;letter-spacing:-0.04em;
-}
-.case .lbl{margin-bottom:0}
-.case h3{font-family:'Anton',sans-serif;text-transform:uppercase;font-size:34px;line-height:0.96;letter-spacing:-0.01em}
-.case h3 .o{color:var(--orange)}
-.case p{font-size:14px;line-height:1.6;color:var(--dim);flex-grow:1}
-.case .stat{
-  display:flex;align-items:baseline;gap:10px;padding-top:14px;
-  border-top:1px solid var(--line);
-}
-.case .stat .n{font-family:'Anton',sans-serif;font-size:30px;color:var(--orange);line-height:1}
-.case .stat .t{font-size:11px;letter-spacing:0.15em;text-transform:uppercase;opacity:0.55;font-family:'IBM Plex Mono',monospace}
-.case .stage{
-  font-size:10px;letter-spacing:0.2em;text-transform:uppercase;
-  font-family:'IBM Plex Mono',monospace;color:var(--gold);
-}
-.case .stage.live{color:var(--orange)}
-.case .stage.live::before{content:'● ';color:var(--orange)}
-.case .stage.flight::before{content:'◐ '}
-.case .stage.shipped::before{content:'■ ';color:var(--gold)}
+/* Buttons */
+.btn-primary { background: var(--teal); color: var(--charcoal); padding: 0.85rem 1.8rem; border-radius: 8px; font-weight: 700; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 0.5rem; transition: background 200ms, transform 100ms; border: none; cursor: pointer; }
+.btn-primary:hover { background: var(--teal-dark); color: var(--charcoal); transform: translateY(-2px); }
+.btn-primary.large { padding: 1rem 2.2rem; font-size: 1rem; }
+.btn-ghost { background: transparent; color: var(--body); padding: 0.85rem 1.8rem; border-radius: 8px; font-weight: 600; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 0.5rem; border: 1.5px solid var(--hairline); transition: border-color 200ms, color 200ms; }
+.btn-ghost:hover { border-color: var(--teal); color: var(--teal); }
 
-.case.span-7{grid-column:span 7}
-.case.span-5{grid-column:span 5}
-.case.span-6{grid-column:span 6}
-.case.span-4{grid-column:span 4}
-.case.span-8{grid-column:span 8}
-@media (max-width:900px){.case[class*="span-"]{grid-column:1/-1}}
+/* Logo bar */
+.logo-bar { background: var(--charcoal); padding: 1.5rem 2rem; }
+.logo-bar-inner { max-width: 1140px; margin: 0 auto; display: flex; align-items: center; gap: 2rem; flex-wrap: wrap; }
+.logo-bar-label { font-size: 0.8rem; color: #888; white-space: nowrap; }
+.logo-bar-items { display: flex; gap: 2rem; flex-wrap: wrap; }
+.logo-bar-item { font-size: 0.85rem; font-weight: 700; color: #888; letter-spacing: 0.05em; transition: color 200ms; }
+.logo-bar-item:hover { color: var(--teal); }
+@media (max-width: 768px) { .logo-bar-inner { flex-direction: column; text-align: center; } }
 
-/* Hero case (asymmetric / kinetic) */
-.case.hero-case{
-  background:linear-gradient(135deg,var(--ink) 0%,#0a0a0a 60%,rgba(232,93,4,0.08) 100%);
-  border-color:rgba(232,93,4,0.3);
-}
-.case.hero-case h3{font-size:48px}
+/* Work cards */
+.work-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
+.case-card { background: var(--white); padding: 2rem; border-radius: var(--radius); border: 1px solid var(--hairline); box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 0.85rem; transition: transform 200ms var(--ease), box-shadow 200ms var(--ease), border-color 200ms; min-height: 260px; position: relative; }
+.case-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--teal); }
+.case-card .case-num { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; color: var(--teal); padding: 0.25rem 0.6rem; background: var(--teal-mid); border-radius: 4px; align-self: flex-start; text-transform: uppercase; }
+.case-card h3 { font-size: 1.15rem; font-weight: 700; line-height: 1.25; }
+.case-card p { color: var(--muted); font-size: 0.9rem; flex: 1; }
+.case-card .case-stat { padding-top: 1rem; border-top: 1px solid var(--hairline); display: flex; align-items: baseline; gap: 0.6rem; flex-wrap: wrap; }
+.case-stat .n { font-size: 1.6rem; font-weight: 900; color: var(--teal); line-height: 1; letter-spacing: -0.02em; }
+.case-stat .t { font-size: 0.8rem; color: var(--muted); letter-spacing: 0.04em; }
+.case-card .stage { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; align-self: flex-start; }
+.stage.live { color: #34C759; }
+.stage.live::before { content: '● '; }
+.stage.flight { color: #FFCC00; }
+.stage.flight::before { content: '◐ '; }
+.stage.shipped { color: var(--muted); }
+.stage.shipped::before { content: '■ '; color: var(--charcoal); }
 
-/* Quote callout */
-.quote-row{
-  margin-top:6vh;padding:5vh 4vw;background:var(--ink);border-radius:24px;border:1px solid var(--line);
-  position:relative;overflow:hidden;
-}
-.quote-mark{
-  font-family:'Fraunces',serif;font-weight:900;font-size:240px;
-  color:var(--orange);opacity:0.18;line-height:0.6;
-  position:absolute;left:36px;top:30px;
-  font-variation-settings:"opsz" 144;
-}
-.quote-body{
-  font-family:'Fraunces',serif;font-weight:700;
-  font-size:clamp(28px,3.6vw,52px);
-  line-height:1.18;letter-spacing:-0.014em;
-  max-width:880px;margin-left:120px;
-  font-variation-settings:"opsz" 144;
-}
-.quote-body em{font-style:normal;color:var(--orange)}
-.quote-attr{
-  margin-left:120px;margin-top:24px;
-  font-size:12px;letter-spacing:0.18em;text-transform:uppercase;
-  font-family:'IBM Plex Mono',monospace;color:var(--gold);opacity:0.85;
-}
-.quote-rule{width:42px;height:3px;background:var(--orange);border-radius:2px;margin-left:120px;margin-top:18px;margin-bottom:0}
-@media (max-width:760px){.quote-mark{left:20px;top:10px;font-size:160px}.quote-body,.quote-attr,.quote-rule{margin-left:36px}}
+/* Engines */
+.engines-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
+.engine-card { background: var(--white); padding: 2rem 1.75rem; border-radius: var(--radius); border: 1px solid var(--hairline); box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 0.5rem; position: relative; overflow: hidden; transition: transform 200ms var(--ease), border-color 200ms; }
+.engine-card:hover { transform: translateY(-4px); border-color: var(--teal); }
+.engine-num { font-size: 3rem; font-weight: 900; color: var(--teal); opacity: 0.15; line-height: 1; margin-bottom: 0.5rem; }
+.engine-card h3 { font-size: 1.05rem; font-weight: 700; }
+.engine-card p { color: var(--muted); font-size: 0.9rem; line-height: 1.55; }
 
-/* ─── The studio (engine map) ────────────────────────────────── */
-.studio{background:var(--black);position:relative}
-.engines{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:4vh}
-.eng{background:var(--ink);padding:36px 32px;position:relative;transition:background 0.25s}
-.eng:hover{background:var(--raise)}
-.eng .num{font-family:'Anton',sans-serif;font-size:56px;color:var(--orange);line-height:1;margin-bottom:10px;opacity:0.4}
-.eng:hover .num{opacity:1}
-.eng h4{font-family:'Anton',sans-serif;text-transform:uppercase;font-size:22px;letter-spacing:-0.005em;line-height:1;margin-bottom:12px}
-.eng p{font-size:13px;line-height:1.65;color:var(--dim)}
-@media (max-width:900px){.engines{grid-template-columns:1fr}}
+/* Method */
+.method-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0; margin-top: 3rem; border-top: 1px solid var(--hairline); }
+.method-item { padding: 2.5rem 2rem; border-right: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); }
+.method-item:last-child { border-right: none; }
+@media (max-width: 768px) { .method-item { border-right: none; } }
+.method-num { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.18em; color: var(--teal); margin-bottom: 1rem; text-transform: uppercase; }
+.method-item h3 { font-size: 1.4rem; line-height: 1.1; margin-bottom: 1rem; font-weight: 900; letter-spacing: -0.02em; }
+.method-item h3 .teal { color: var(--teal); }
+.method-item p { font-size: 0.95rem; color: var(--muted); line-height: 1.65; }
 
-/* ─── Method ─────────────────────────────────────────────────── */
-.method{background:var(--ink);position:relative;padding-top:18vh;padding-bottom:18vh}
-.method::before{
-  content:'';position:absolute;left:0;top:0;right:0;height:1px;background:var(--line);
-}
-.method-list{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
-.method-item{
-  padding:36px 32px;border-right:1px solid var(--line);position:relative;
-}
-.method-item:last-child{border-right:none}
-.method-item .n{
-  font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.22em;
-  color:var(--orange);margin-bottom:18px;text-transform:uppercase;
-}
-.method-item h4{
-  font-family:'Anton',sans-serif;text-transform:uppercase;
-  font-size:30px;line-height:0.94;letter-spacing:-0.01em;margin-bottom:18px;
-}
-.method-item h4 .thin{
-  font-family:'Fraunces',serif;font-weight:300;font-style:italic;
-  text-transform:lowercase;color:var(--gold);font-variation-settings:"opsz" 144;
-}
-.method-item p{font-size:14px;line-height:1.7;color:var(--dim);max-width:340px}
-@media (max-width:900px){.method-list{grid-template-columns:1fr}.method-item{border-right:none;border-bottom:1px solid var(--line);padding:32px 28px}}
+/* Testimonial */
+.testimonial { background: rgba(255,255,255,0.03); border-radius: var(--radius); border: 1px solid rgba(77,217,213,0.18); padding: 2.5rem; margin-top: 3rem; max-width: 880px; position: relative; }
+.quote-mark { font-size: 5rem; line-height: 0.5; color: var(--teal); opacity: 0.3; font-family: Georgia, serif; margin-bottom: 1rem; display: block; }
+.quote-text { font-size: 1.15rem; color: #ddd; font-style: italic; margin-bottom: 1.5rem; line-height: 1.5; }
+.quote-text em { color: var(--teal); font-style: normal; }
+.quote-author { display: flex; align-items: center; gap: 0.75rem; }
+.quote-avatar { width: 40px; height: 40px; border-radius: 8px; background: var(--teal); color: var(--charcoal); display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 0.85rem; }
+.quote-author strong { display: block; color: var(--white); font-size: 0.9rem; }
+.quote-author span { font-size: 0.8rem; color: #888; }
 
-/* ─── About ──────────────────────────────────────────────────── */
-.about{background:var(--black);padding-top:18vh;padding-bottom:18vh}
-.about-wrap{display:grid;grid-template-columns:380px 1fr;gap:8vw;align-items:start}
-@media (max-width:900px){.about-wrap{grid-template-columns:1fr;gap:5vh}}
-.portrait{
-  width:100%;aspect-ratio:4/5;background:var(--ink);
-  border:1px solid var(--line);position:relative;overflow:hidden;
-  display:flex;align-items:center;justify-content:center;
-  transform:rotate(-1.4deg);
-}
-.portrait::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(232,93,4,0.08) 0%,transparent 50%,rgba(201,168,76,0.06) 100%);pointer-events:none}
-.portrait img{width:100%;height:100%;object-fit:cover;display:block}
-.portrait-mono{
-  font-family:'Anton',sans-serif;font-size:200px;color:var(--orange);
-  line-height:1;letter-spacing:-0.05em;opacity:0.85;
-}
-.portrait-fallback{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:24px}
-.portrait .ridge{position:absolute;left:24px;bottom:24px;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.25em;color:var(--gold);text-transform:uppercase}
-.portrait .name-tag{position:absolute;right:18px;top:20px;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.25em;color:var(--dim);text-transform:uppercase;writing-mode:vertical-rl;transform:rotate(180deg)}
+/* About */
+.about-grid { display: grid; grid-template-columns: 320px 1fr; gap: 4rem; align-items: start; margin-top: 2rem; }
+@media (max-width: 768px) { .about-grid { grid-template-columns: 1fr; gap: 2rem; } }
+.portrait { width: 100%; aspect-ratio: 4/5; background: var(--light); border: 1px solid var(--hairline); border-radius: var(--radius); position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+.portrait img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.portrait-mono { font-size: 8rem; font-weight: 900; color: var(--teal); letter-spacing: -0.05em; line-height: 1; }
+.portrait-fallback { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; padding: 2rem; background: var(--light); }
+.portrait-fallback .label { font-size: 0.7rem; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; font-weight: 600; text-align: center; }
+.about-body p { margin-bottom: 1rem; color: var(--body); line-height: 1.75; }
+.about-body p strong { color: var(--charcoal); font-weight: 600; }
+.lang-row { display: flex; gap: 0.6rem; margin-top: 1.5rem; flex-wrap: wrap; }
+.lang { padding: 0.4rem 0.85rem; font-size: 0.75rem; font-weight: 600; border: 1px solid var(--hairline); border-radius: 999px; letter-spacing: 0.06em; color: var(--muted); }
+.lang.fluent { border-color: var(--teal); color: var(--teal); background: var(--teal-light); }
 
-.about-body h2{
-  font-size:clamp(40px,6vw,86px);
-  font-family:'Anton',sans-serif;text-transform:uppercase;line-height:0.88;letter-spacing:-0.012em;
-  margin-bottom:32px;
-}
-.about-body h2 .o{color:var(--orange)}
-.about-body h2 .thin{font-family:'Fraunces',serif;font-weight:300;font-style:italic;text-transform:lowercase;color:var(--gold);font-variation-settings:"opsz" 144}
-.about-body p{font-size:16px;line-height:1.78;color:var(--dim);margin-bottom:18px;max-width:640px}
-.about-body p strong{color:var(--offwhite);font-weight:500}
-.about-body .em{font-family:'Fraunces',serif;font-style:italic;color:var(--gold);font-weight:400}
-.lang-row{display:flex;gap:14px;margin-top:32px;flex-wrap:wrap}
-.lang{
-  padding:10px 16px;border:1px solid var(--line);border-radius:999px;
-  font-size:11px;letter-spacing:0.14em;text-transform:uppercase;
-  font-family:'IBM Plex Mono',monospace;color:var(--dim);
-}
-.lang.fluent{border-color:var(--orange);color:var(--orange)}
+/* Volta */
+.volta-block { padding: 6rem 2rem; }
+.volta-body { font-size: clamp(1.6rem, 3.6vw, 2.4rem); font-weight: 900; line-height: 1.2; letter-spacing: -0.02em; max-width: 900px; color: var(--white); }
+.volta-body .teal { color: var(--teal); }
+.volta-body .muted { color: #777; font-weight: 400; }
+.volta-meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.5rem; margin-top: 3rem; max-width: 800px; padding-top: 2rem; border-top: 1px solid #333; }
+.volta-meta .l { font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: #777; margin-bottom: 0.4rem; font-weight: 600; }
+.volta-meta .v { font-size: 0.95rem; font-weight: 700; color: var(--white); }
 
-/* ─── Volta — the autonomy reveal ────────────────────────────── */
-.volta{
-  background:var(--black);padding:22vh 5vw;
-  position:relative;overflow:hidden;text-align:left;
-}
-.volta::before{
-  content:'AUTONOMOUS';
-  position:absolute;left:-2vw;top:50%;transform:translateY(-50%);
-  font-family:'Anton',sans-serif;font-size:clamp(160px,22vw,360px);
-  color:var(--orange);opacity:0.05;letter-spacing:-0.04em;line-height:0.85;
-  pointer-events:none;user-select:none;white-space:nowrap;
-}
-.volta .lbl{color:var(--orange)}
-.volta-body{
-  font-family:'Fraunces',serif;font-weight:700;
-  font-size:clamp(34px,5.6vw,84px);
-  line-height:1.06;letter-spacing:-0.022em;
-  max-width:1180px;
-  font-variation-settings:"opsz" 144;
-}
-.volta-body em{font-style:normal;color:var(--orange);font-weight:900}
-.volta-body .gold{color:var(--gold)}
-.volta-meta{
-  display:flex;gap:36px;margin-top:42px;flex-wrap:wrap;
-  font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.18em;
-  text-transform:uppercase;color:var(--dim);
-}
-.volta-meta strong{color:var(--orange);font-weight:600}
+/* CTA */
+.cta-block { padding: 6rem 2rem; background: var(--charcoal-deep); position: relative; overflow: hidden; }
+.cta-inner { max-width: 900px; margin: 0 auto; }
+.cta-block h2 { color: var(--white); margin-bottom: 1.5rem; }
+.cta-block .teal { color: var(--teal); }
+.cta-block .lede { color: #aaa; max-width: 600px; margin-bottom: 2.5rem; }
+.cta-promises { list-style: none; margin-bottom: 2.5rem; display: flex; flex-direction: column; gap: 0.6rem; }
+.cta-promises li { display: flex; align-items: center; gap: 0.6rem; font-size: 0.95rem; color: #ccc; }
+.cta-promises li::before { content: '✓'; color: var(--teal); font-weight: 900; }
+.cta-buttons { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+.cta-or { color: #555; font-size: 0.9rem; }
 
-/* ─── CTA ────────────────────────────────────────────────────── */
-.cta{
-  background:var(--orange);color:var(--black);padding:18vh 5vw;
-  position:relative;overflow:hidden;
-}
-.cta::before{
-  content:'';position:absolute;right:-6vw;top:-30%;bottom:-20%;width:1px;
-  background:rgba(8,8,8,0.6);transform:rotate(-9deg);opacity:0.4;
-}
-.cta::after{
-  content:'';position:absolute;right:-200px;top:-30%;bottom:-20%;width:380px;
-  background:rgba(240,237,230,0.05);transform:rotate(-12deg);
-}
-.cta .lbl{color:rgba(8,8,8,0.6)}
-.cta h2{
-  font-family:'Anton',sans-serif;text-transform:uppercase;
-  font-size:clamp(56px,11vw,180px);line-height:0.86;letter-spacing:-0.018em;
-  color:var(--black);margin-bottom:32px;
-}
-.cta h2 .thin{font-family:'Fraunces',serif;font-weight:300;font-style:italic;text-transform:lowercase;color:var(--offwhite);font-variation-settings:"opsz" 144}
-.cta p{font-size:18px;color:rgba(8,8,8,0.78);max-width:580px;line-height:1.6;margin-bottom:42px}
-.cta-buttons{display:flex;gap:14px;flex-wrap:wrap}
-.btn-pri{
-  padding:18px 32px;background:var(--black);color:var(--orange);
-  font-family:'Anton',sans-serif;text-transform:uppercase;letter-spacing:0.08em;
-  font-size:15px;border:none;cursor:pointer;text-decoration:none;
-  transition:transform 0.2s ease,box-shadow 0.25s ease;display:inline-flex;align-items:center;gap:10px;
-}
-.btn-pri:hover{transform:translateY(-2px);box-shadow:0 18px 32px -10px rgba(8,8,8,0.5)}
-.btn-sec{
-  padding:18px 32px;background:transparent;color:var(--black);
-  font-family:'Anton',sans-serif;text-transform:uppercase;letter-spacing:0.08em;
-  font-size:15px;border:1.5px solid var(--black);cursor:pointer;text-decoration:none;
-  transition:background 0.2s ease,color 0.2s ease;
-}
-.btn-sec:hover{background:var(--black);color:var(--orange)}
+/* Footer */
+footer { background: var(--charcoal); padding: 3rem 2rem; border-top: 1px solid #222; }
+.footer-inner { max-width: 1140px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem; }
+.footer-logo { display: flex; align-items: center; gap: 0.6rem; }
+.footer-meta { font-size: 0.8rem; color: #555; display: flex; flex-direction: column; gap: 0.3rem; text-align: right; }
+.footer-meta a { color: var(--teal); }
+@media (max-width: 768px) { .footer-inner { flex-direction: column; text-align: center; } .footer-meta { text-align: center; } }
 
-/* ─── Footer ─────────────────────────────────────────────────── */
-footer{
-  background:var(--black);padding:8vh 5vw 5vh;
-  display:flex;justify-content:space-between;align-items:flex-end;
-  flex-wrap:wrap;gap:3vh;border-top:1px solid var(--line);
-}
-footer .brand-large{
-  font-family:'Anton',sans-serif;font-size:clamp(56px,10vw,140px);
-  text-transform:uppercase;line-height:0.86;letter-spacing:-0.012em;
-}
-footer .brand-large span{color:var(--orange)}
-footer .meta{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--dim);text-align:right}
-footer .meta div{margin-bottom:6px}
-footer .meta a{color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(201,168,76,0.3)}
-.footnote{
-  margin-top:6vh;padding-top:3vh;border-top:1px solid var(--line);
-  font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.18em;
-  text-transform:uppercase;color:var(--dim);max-width:780px;line-height:1.7;
-  width:100%;
-}
+/* Reveal */
+.r { opacity: 0; transform: translateY(20px); transition: opacity 600ms var(--ease), transform 600ms var(--ease); }
+.r.on { opacity: 1; transform: translateY(0); }
+.r.d1 { transition-delay: 60ms; } .r.d2 { transition-delay: 120ms; } .r.d3 { transition-delay: 180ms; }
+@media (prefers-reduced-motion: reduce) { .r { transition: none; opacity: 1; transform: none; } .pulse-dot { animation: none; } }
 </style>
 </head>
 <body>
 
-<div class="topbar">
-  <div class="brand">CONVERSION<span>·</span>FORGE</div>
-  <div class="live"><span class="live-dot"></span><span>Operator on shift · Sevenoaks</span></div>
-</div>
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo">
+      <div class="logo-mark">F</div>
+      <span class="logo-text">CONVERSION <span class="accent">FORGE</span></span>
+    </div>
+    <div class="nav-links">
+      <a href="#work">Work</a>
+      <a href="#engines">The system</a>
+      <a href="#about">Operator</a>
+      <a href="#contact" class="btn-nav">Talk to TK</a>
+    </div>
+  </div>
+</nav>
 
-<!-- ━━━ HERO ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
 <section class="hero">
-  <div class="hero-bgword">FORGE</div>
-  <div class="hero-rail">Tokelo Mogorosi · Architect · Operator · Owner</div>
-
-  <div class="hero-meta r">
-    <span class="tag hot"><span class="live-dot"></span> Live · Clients paying</span>
-    <span class="tag">Sevenoaks · Kent</span>
-    <span class="tag">South African · UK</span>
-  </div>
-
-  <h1 class="r d1">
-    Tokelo<br>
-    <span class="o">"Tk"</span> Mogorosi.<br>
-    <span class="thin">the operator.</span>
-  </h1>
-
-  <p class="hero-sub r d2">
-    I run an <strong>autonomous business engine</strong> from Sevenoaks. Six modules under one roof. They write, send, sell, render, and ledger while I sleep. <strong>Not a chatbot. Not a dashboard. An operating layer.</strong>
-  </p>
-
-  <div class="hero-grid r d3">
-    <div><div class="v">+99.6%</div><div class="l">Reach in 29 days · 7 Oaks Grill</div></div>
-    <div><div class="v">#1</div><div class="l">TripAdvisor of 23 · Nonna Cappuccini</div></div>
-    <div><div class="v">£0</div><div class="l">Ad spend, ever, behind any result</div></div>
-    <div><div class="v">06</div><div class="l">Engines, in flight, today</div></div>
-  </div>
-</section>
-
-<!-- ━━━ PROOF STRIP ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-<div class="proof">
-  <div class="proof-grid">
-    <div class="r"><div class="v">£1,040</div><div class="l">Monthly retainers · paid</div></div>
-    <div class="r d1"><div class="v">5</div><div class="l">Active client engagements</div></div>
-    <div class="r d2"><div class="v">29 days</div><div class="l">From kickoff to documented lift</div></div>
-    <div class="r d3"><div class="v">24/7</div><div class="l">Engines running while operator sleeps</div></div>
-  </div>
-</div>
-
-<!-- ━━━ THE WORK ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-<section id="work">
-  <div class="section-head">
-    <div>
-      <span class="lbl lblblock r">01 · The Work</span>
-      <h2 class="r d1">The work.<br><span class="thin">documented.</span></h2>
-    </div>
-    <p class="lede r d2">Five live engagements. Three case studies with quantified lifts. One product in flight. Every result earned without paid media.</p>
-  </div>
-
-  <div class="work-grid">
-
-    <div class="case hero-case span-7 r" data-num="01">
-      <span class="lbl">Case 01 · Hospitality</span>
-      <span class="stage live">Active retainer</span>
-      <h3>7 Oaks Grill.<br><span class="o">Sevenoaks, Kent.</span></h3>
-      <p>Independent grill house, no marketing function. Plugged in the Conversion Forge stack on day one. Daily posts, Reels scripts, response loop, weekly digest. Owner approved nothing, touched nothing. Reach moved on its own.</p>
-      <div class="stat">
-        <div class="n">+99.6%</div>
-        <div class="t">Organic reach · 29 days · zero ad spend</div>
+  <div class="hero-inner">
+    <div class="hero-content r">
+      <div class="eyebrow-wrap">
+        <span class="eyebrow-dot"></span>
+        <span class="eyebrow">The operator · Sevenoaks · Kent</span>
       </div>
-    </div>
-
-    <div class="case span-5 r d1" data-num="02">
-      <span class="lbl">Case 02 · Heritage F&amp;B</span>
-      <span class="stage shipped">Pipeline · 18 yrs no website</span>
-      <h3>Nonna<br>Cappuccini.</h3>
-      <p>Eighteen years on word of mouth alone. Number one of twenty-three on TripAdvisor with 296 reviews and not a single web page. The gap is the pitch.</p>
-      <div class="stat">
-        <div class="n">#1 / 23</div>
-        <div class="t">TripAdvisor · 296 reviews</div>
+      <h1 class="display">
+        While you sleep, the <span class="teal-underline">system runs.</span>
+        Tokelo Mogorosi runs the system.
+      </h1>
+      <p class="hero-sub">An autonomous business engine for UK small businesses. Six modules. Five paying clients. One operator. Zero ad spend behind any result we have produced.</p>
+      <div class="hero-cta">
+        <a href="#contact" class="btn-primary">Book a 30-minute call</a>
+        <a href="#work" class="btn-ghost">See the work →</a>
       </div>
-    </div>
-
-    <div class="case span-5 r" data-num="03">
-      <span class="lbl">Case 03 · Luxury leather</span>
-      <span class="stage live">£150/mo retainer</span>
-      <h3>Persa<br><span class="o">London.</span></h3>
-      <p>UK luxury leather goods. Handmade in Florence. Seven Etsy listings written, photographed, copy-edited, shipped, autonomously. eBay live. Instagram queued.</p>
-      <div class="stat">
-        <div class="n">£150/mo</div>
-        <div class="t">Active retainer · seven listings live</div>
-      </div>
-    </div>
-
-    <div class="case span-7 r d1" data-num="04">
-      <span class="lbl">Case 04 · Live entertainment</span>
-      <span class="stage live">£1,000/mo retainer · ops director</span>
-      <h3>Ace of Clubs.<br><span class="o">Back-office, fully owned.</span></h3>
-      <p>Twenty-year running London comedy and live music institution. Engaged to run the back office: PR, venue scouting, invoicing, recruitment, agent diplomacy. The engines do the running. The operator keeps the relationships warm.</p>
-      <div class="stat">
-        <div class="n">£1,000/mo</div>
-        <div class="t">Monthly retainer · five workstreams</div>
-      </div>
-    </div>
-
-    <div class="case span-6 r" data-num="05">
-      <span class="lbl">Case 05 · Native product</span>
-      <span class="stage flight">In flight · pre-launch</span>
-      <h3>Wakatsuki<br><span class="o">Roast.</span></h3>
-      <p>Brutal AI critique for startup ideas. Twenty critic personas, one verdict, under three seconds. Free for five roasts a week, four ninety-nine for unlimited and shareable verdict videos. Web, iOS, Android, one stack. Built for founders before product-market fit, marketers tired of consensus, and anyone whose group chat will not tell them the truth.</p>
-      <div class="stat">
-        <div class="n">3.2M</div>
-        <div class="t">UK addressable · 4 ICP tiers · pre-launch</div>
-      </div>
-    </div>
-
-    <div class="case span-6 r d1" data-num="06">
-      <span class="lbl">Case 06 · Character studio</span>
-      <span class="stage flight">In flight · pipeline live</span>
-      <h3>Studio<br><span class="o">Six.</span></h3>
-      <p>An owned roster of five AI-native characters with persistent identity, voice, and look. Cinematics, narrative shorts, character bibles, social campaigns, all rendered through one pipeline. The same identity layer that builds an influencer can render an NPC.</p>
-      <div class="stat">
-        <div class="n">5 characters</div>
-        <div class="t">Persistent identity · voice · video stack</div>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- Volta quote -->
-  <div class="quote-row r">
-    <div class="quote-mark">"</div>
-    <div class="quote-rule"></div>
-    <div class="quote-body">In twenty-nine days my reach went up <em>99.6 percent.</em> I haven't paid for a single ad.</div>
-    <div class="quote-attr">Onzy · Owner · 7 Oaks Grill · Sevenoaks</div>
-  </div>
-</section>
-
-<!-- ━━━ THE STUDIO (engine map) ━━━━━━━━━━━━━━━━━━━━━━━━ -->
-<section class="studio" id="studio">
-  <div class="section-head">
-    <div>
-      <span class="lbl lblblock r">02 · The Studio</span>
-      <h2 class="r d1">Six engines.<br><span class="thin">one operator.</span></h2>
-    </div>
-    <p class="lede r d2">Each engine is a discrete capability with its own metabolism. They share one memory of the business. The output appears overnight. Everything below is a <em>what</em>, never a <em>how</em>.</p>
-  </div>
-
-  <div class="engines">
-    <div class="eng r"><div class="num">01</div><h4>Content</h4><p>Daily posts, reel scripts, and campaign copy generated overnight, scheduled and posted on a calendar that never sleeps.</p></div>
-    <div class="eng r d1"><div class="num">02</div><h4>Outreach</h4><p>Personalised email sequences and follow-ups, paced to protect deliverability. No bursts. No spam list. No blacklist risk.</p></div>
-    <div class="eng r d2"><div class="num">03</div><h4>Lead intelligence</h4><p>Council registers, public licence data, place graphs, and review surfaces, cross-referenced for highest-intent prospects.</p></div>
-    <div class="eng r"><div class="num">04</div><h4>Reputation</h4><p>Every review flagged within the hour, draft response queued for owner approval, sent on a single tap.</p></div>
-    <div class="eng r d1"><div class="num">05</div><h4>Character studio</h4><p>Five owned characters with persistent identity. Cinematic stills, voice, and short-form video, rendered as one pipeline.</p></div>
-    <div class="eng r d2"><div class="num">06</div><h4>Ledger</h4><p>Invoices generated, payments logged, reminders sent. Clients receive a PDF. The operator gets paid.</p></div>
-  </div>
-</section>
-
-<!-- ━━━ METHOD ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-<section class="method" id="method">
-  <div class="section-head">
-    <div>
-      <span class="lbl lblblock r">03 · Method</span>
-      <h2 class="r d1">Three principles.<br><span class="thin">no fourth.</span></h2>
-    </div>
-    <p class="lede r d2">The doctrine the system was built on. The doctrine the system is judged by.</p>
-  </div>
-
-  <div class="method-list">
-    <div class="method-item r">
-      <div class="n">01</div>
-      <h4>Anime-thick<br><span class="thin">narrative.</span></h4>
-      <p>Every brand has a story underneath the tagline. Find the story, the campaign writes itself. Skip the story, the campaign reads like a press release.</p>
-    </div>
-    <div class="method-item r d1">
-      <div class="n">02</div>
-      <h4>Constraint<br>built systems.</h4>
-      <p>A Chromebook, a 9-to-3 window, a young family. Constraints are the curriculum. They strip the noise from a system faster than any roadmap.</p>
-    </div>
-    <div class="method-item r d2">
-      <div class="n">03</div>
-      <h4>Operator,<br><span class="thin">never consultant.</span></h4>
-      <p>Conversion Forge is not a service that recommends. It is a system that runs. The retainer is for outputs, not opinions. Owners want results in the morning, not slide decks at the end of the quarter.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ━━━ ABOUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-<section class="about" id="about">
-  <div class="section-head">
-    <div>
-      <span class="lbl lblblock r">04 · About</span>
-      <h2 class="r d1" style="font-size:clamp(46px,8vw,124px)">The<br>operator.</h2>
-    </div>
-  </div>
-
-  <div class="about-wrap">
-    <div class="r">
-      <div class="portrait">
-        <!-- Drop ~/tk-portfolio/assets/tk.jpg here and the next line will pick it up -->
-        <img src="assets/tk.jpg" alt="Tokelo Mogorosi" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-        <div class="portrait-fallback" style="display:none">
-          <div class="portrait-mono">TK</div>
-          <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.25em;color:var(--gold);text-transform:uppercase;text-align:center">Operator portrait<br>identity locked</div>
+      <div class="trust-strip">
+        <div class="trust-item">
+          <strong>+99.6%</strong>
+          <span>reach in 29 days</span>
         </div>
-        <div class="ridge">Tokelo M · 2026</div>
-        <div class="name-tag">CF · Sevenoaks</div>
+        <div class="trust-divider"></div>
+        <div class="trust-item">
+          <strong>£0</strong>
+          <span>ad spend, ever</span>
+        </div>
+        <div class="trust-divider"></div>
+        <div class="trust-item">
+          <strong>5</strong>
+          <span>active retainers</span>
+        </div>
       </div>
     </div>
-
-    <div class="about-body r d1">
-      <h2>Born in <span class="o">South Africa.</span><br>Building <span class="thin">in Britain.</span></h2>
-
-      <p>I am Tokelo Mogorosi. South African, UK-based, in Sevenoaks. Career-built across creative tech, agency, hospitality, fashion, and live entertainment, including Scotch &amp; Soda, Mission 2 Vision, Ace of Clubs, and a stint as a Licensing Technician at Sevenoaks District Council. Lost my role in December 2025. Gave myself <strong>six months to replace the income before the savings ran out.</strong></p>
-
-      <p>That is not a founder story. That is a constraint set. <span class="em">Constraints build better systems than funding does.</span></p>
-
-      <p>The bridge I keep building is between South Africa and the United Kingdom. SA-born network, UK operating address, both passports culturally fluent. I read the room in the language the room is most comfortable in.</p>
-
-      <div class="lang-row">
-        <div class="lang fluent">English · Native</div>
-        <div class="lang fluent">Afrikaans · Fluent</div>
-        <div class="lang fluent">Zulu · Fluent</div>
-        <div class="lang">Xhosa · B1</div>
-        <div class="lang">Dutch · B1</div>
+    <div class="hero-visual r d1">
+      <div class="pipeline-card" aria-label="Live engagement preview">
+        <div class="card-header">
+          <div class="card-dot green"></div>
+          <div class="card-dot yellow"></div>
+          <div class="card-dot red"></div>
+          <span class="card-title">Live engagement, today</span>
+        </div>
+        <div class="pipeline-items">
+          <div class="pipeline-item">
+            <div class="pipe-icon">7G</div>
+            <div class="pipe-text">
+              <span class="pipe-name">7 Oaks Grill, Sevenoaks</span>
+              <span class="pipe-status live">+99.6% reach</span>
+            </div>
+          </div>
+          <div class="pipeline-item">
+            <div class="pipe-icon">PL</div>
+            <div class="pipe-text">
+              <span class="pipe-name">Persa London, leather</span>
+              <span class="pipe-status live">£150/mo</span>
+            </div>
+          </div>
+          <div class="pipeline-item">
+            <div class="pipe-icon">AC</div>
+            <div class="pipe-text">
+              <span class="pipe-name">Ace of Clubs, ops</span>
+              <span class="pipe-status live">£1,000/mo</span>
+            </div>
+          </div>
+          <div class="pipeline-item">
+            <div class="pipe-icon">WK</div>
+            <div class="pipe-text">
+              <span class="pipe-name">Wakatsuki Roast</span>
+              <span class="pipe-status flight">Pre-launch</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="pulse-dot"></span>
+          <span>Operator on shift, 5 engagements live</span>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ━━━ THE VOLTA ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-<section class="volta">
-  <span class="lbl lblblock r">05 · The Disclosure</span>
-  <p class="volta-body r d1">
-    This site<br>was <em>not</em> designed<br>by a designer.<br>
-    <span class="gold">It was built autonomously.</span><br>
-    One paragraph in. <em>Forty minutes</em> later, this was live.
-  </p>
-  <div class="volta-meta r d2">
-    <span><strong>Author</strong> · Claude Opus, agentic CLI</span>
-    <span><strong>Operator</strong> · Tokelo Mogorosi</span>
-    <span><strong>Build time</strong> · single session</span>
-    <span><strong>Lines of code</strong> · this file</span>
+<section class="logo-bar" style="padding: 1.5rem 2rem;">
+  <div class="logo-bar-inner">
+    <span class="logo-bar-label">The clients on the books</span>
+    <div class="logo-bar-items">
+      <a class="logo-bar-item" href="https://www.instagram.com/7oaksgrill/" target="_blank" rel="noopener">7 Oaks Grill</a>
+      <a class="logo-bar-item" href="https://www.ebay.co.uk/str/persalondon" target="_blank" rel="noopener">Persa London</a>
+      <a class="logo-bar-item" href="https://tn14cars.co.uk" target="_blank" rel="noopener">TN14 Cars</a>
+      <a class="logo-bar-item" href="https://tokelomogorosi-ctrl.github.io/joshfit-website/" target="_blank" rel="noopener">Joshfit PT</a>
+      <a class="logo-bar-item" href="https://tokelomogorosi-ctrl.github.io/chaplins-barbers-website/" target="_blank" rel="noopener">Chaplins Barbers</a>
+      <a class="logo-bar-item" href="#" rel="noopener">Ace of Clubs</a>
+    </div>
   </div>
 </section>
 
-<!-- ━━━ CTA ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-<section class="cta" id="contact">
-  <span class="lbl lblblock r">06 · Find me</span>
-  <h2 class="r d1">Let's<br>build<br><span class="thin">something quiet.</span></h2>
-  <p class="r d2">A thirty-minute call is enough. If there is a fit, the work starts inside a week. If there is not, neither of us has lost an afternoon.</p>
-  <div class="cta-buttons r d3">
-    <a class="btn-pri" href="mailto:tokelo.mogorosi@gmail.com">Book a call →</a>
-    <a class="btn-sec" href="https://conversionforge.co.uk" target="_blank" rel="noopener">conversionforge.co.uk</a>
+<section class="section-white" id="work">
+  <div class="container">
+    <div class="r">
+      <div class="eyebrow-wrap">
+        <span class="eyebrow-dot"></span>
+        <span class="eyebrow">01 · The work</span>
+      </div>
+      <h2>The work. Documented.</h2>
+      <p class="lede">Five live engagements. Three case studies with quantified lifts. One product in flight. Every result earned without paid media.</p>
+    </div>
+
+    <div class="work-grid">
+      <article class="case-card r">
+        <span class="case-num">01 · Hospitality</span>
+        <span class="stage live">Active retainer</span>
+        <h3>7 Oaks Grill, Sevenoaks.</h3>
+        <p>Independent grill house, no marketing function in place. Plugged in the Conversion Forge stack on day one. Daily posts, Reels scripts, response loop, weekly digest. Owner approved nothing, touched nothing.</p>
+        <div class="case-stat">
+          <span class="n">+99.6%</span>
+          <span class="t">organic reach in 29 days</span>
+        </div>
+      </article>
+
+      <article class="case-card r d1">
+        <span class="case-num">02 · Heritage F&amp;B</span>
+        <span class="stage shipped">Pipeline</span>
+        <h3>Nonna Cappuccini.</h3>
+        <p>Eighteen years on word of mouth. Number one of twenty-three on TripAdvisor with 296 reviews and not a single web page. The gap is the pitch.</p>
+        <div class="case-stat">
+          <span class="n">#1 / 23</span>
+          <span class="t">TripAdvisor, 296 reviews</span>
+        </div>
+      </article>
+
+      <article class="case-card r d2">
+        <span class="case-num">03 · Luxury leather</span>
+        <span class="stage live">£150/mo retainer</span>
+        <h3>Persa London.</h3>
+        <p>UK luxury leather, handmade in Florence. Seven Etsy listings written, photographed, copy-edited, shipped autonomously. eBay store live. Instagram queued.</p>
+        <div class="case-stat">
+          <span class="n">£150/mo</span>
+          <span class="t">retained, 7 listings live</span>
+        </div>
+      </article>
+
+      <article class="case-card r d1">
+        <span class="case-num">04 · Live entertainment</span>
+        <span class="stage live">£1,000/mo retainer</span>
+        <h3>Ace of Clubs.</h3>
+        <p>Twenty-year London comedy and live music institution. Engaged to run the back office, PR, venue scouting, invoicing, recruitment, agent diplomacy. Engines do the running. Operator keeps relationships warm.</p>
+        <div class="case-stat">
+          <span class="n">£1,000/mo</span>
+          <span class="t">retainer, five workstreams</span>
+        </div>
+      </article>
+
+      <article class="case-card r d2">
+        <span class="case-num">05 · Native product</span>
+        <span class="stage flight">In flight, pre-launch</span>
+        <h3>Wakatsuki Roast.</h3>
+        <p>Brutal AI critique for startup ideas. Twenty critic personas, one verdict, under three seconds. Free for five roasts a week, £4.99 a month for unlimited and shareable verdict videos. Web, iOS, Android, one stack.</p>
+        <div class="case-stat">
+          <span class="n">3.2M</span>
+          <span class="t">UK addressable, 4 ICP tiers</span>
+        </div>
+      </article>
+
+      <article class="case-card r d3">
+        <span class="case-num">06 · Character studio</span>
+        <span class="stage flight">In flight</span>
+        <h3>Studio Six.</h3>
+        <p>Owned roster of five AI-native characters with persistent identity, voice, and look. Cinematics, shorts, character bibles, social campaigns, all rendered through one pipeline. Identity layer that builds an influencer also renders an NPC.</p>
+        <div class="case-stat">
+          <span class="n">5</span>
+          <span class="t">characters, stills, voice, video</span>
+        </div>
+      </article>
+    </div>
   </div>
 </section>
 
-<!-- ━━━ FOOTER ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<section class="section-dark">
+  <div class="container">
+    <div class="testimonial r">
+      <span class="quote-mark">"</span>
+      <p class="quote-text">In twenty-nine days my reach went up <em>99.6 percent</em>. I haven't paid for a single ad.</p>
+      <div class="quote-author">
+        <div class="quote-avatar">OZ</div>
+        <div>
+          <strong>Onzy</strong>
+          <span>Owner, 7 Oaks Grill, Sevenoaks</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-teal-light" id="engines">
+  <div class="container">
+    <div class="r">
+      <div class="eyebrow-wrap">
+        <span class="eyebrow-dot"></span>
+        <span class="eyebrow">02 · The system</span>
+      </div>
+      <h2>Six engines. One operator.</h2>
+      <p class="lede">Each engine is a discrete capability with its own metabolism. They share one memory of the business. Output appears overnight. Every entry below is a what, never a how.</p>
+    </div>
+
+    <div class="engines-grid">
+      <div class="engine-card r"><div class="engine-num">01</div><h3>Content</h3><p>Daily posts, Reel scripts, campaign copy. Generated overnight, scheduled and posted on a calendar that never sleeps.</p></div>
+      <div class="engine-card r d1"><div class="engine-num">02</div><h3>Outreach</h3><p>Personalised email sequences and follow-ups, paced to protect deliverability. No bursts. No spam list. No blacklist risk.</p></div>
+      <div class="engine-card r d2"><div class="engine-num">03</div><h3>Lead intelligence</h3><p>Council registers, public licence data, place graphs, review surfaces, cross-referenced for highest-intent prospects.</p></div>
+      <div class="engine-card r"><div class="engine-num">04</div><h3>Reputation</h3><p>Every review flagged within the hour. Draft response queued for owner approval. Sent on a single tap.</p></div>
+      <div class="engine-card r d1"><div class="engine-num">05</div><h3>Character studio</h3><p>Five owned characters with persistent identity. Cinematic stills, voice, short-form video, one pipeline.</p></div>
+      <div class="engine-card r d2"><div class="engine-num">06</div><h3>Ledger</h3><p>Invoices generated, payments logged, reminders sent. Clients receive a PDF. The operator gets paid.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section-white">
+  <div class="container">
+    <div class="r">
+      <div class="eyebrow-wrap">
+        <span class="eyebrow-dot"></span>
+        <span class="eyebrow">03 · Method</span>
+      </div>
+      <h2>Three principles. No fourth.</h2>
+      <p class="lede">The doctrine the system was built on. The doctrine the system is judged by.</p>
+    </div>
+
+    <div class="method-grid">
+      <div class="method-item r">
+        <div class="method-num">01</div>
+        <h3>Anime-thick narrative.</h3>
+        <p>Every brand has a story underneath the tagline. Find the story, the campaign writes itself. Skip the story, the campaign reads like a press release.</p>
+      </div>
+      <div class="method-item r d1">
+        <div class="method-num">02</div>
+        <h3>Constraint-built systems.</h3>
+        <p>A Chromebook, a 9-to-3 window, a young family. Constraints are the curriculum. They strip the noise from a system faster than any roadmap.</p>
+      </div>
+      <div class="method-item r d2">
+        <div class="method-num">03</div>
+        <h3>Operator, never consultant.</h3>
+        <p>Conversion Forge is not a service that recommends. It is a system that runs. The retainer is for outputs, not opinions. Owners want results in the morning, not slide decks at the end of the quarter.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-soft" id="about">
+  <div class="container">
+    <div class="r">
+      <div class="eyebrow-wrap">
+        <span class="eyebrow-dot"></span>
+        <span class="eyebrow">04 · The operator</span>
+      </div>
+      <h2>Born in <span class="teal">South Africa</span>. Building in Britain.</h2>
+    </div>
+
+    <div class="about-grid">
+      <div class="r">
+        <div class="portrait">
+          <img src="assets/tk.jpg" alt="Tokelo Mogorosi" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="portrait-fallback" style="display:none">
+            <div class="portrait-mono">TK</div>
+            <div class="label">Operator portrait, identity locked</div>
+          </div>
+        </div>
+      </div>
+      <div class="about-body r d1">
+        <p>I am Tokelo Mogorosi. South African, UK-based, in Sevenoaks. Career-built across creative tech, agency, hospitality, fashion, and live entertainment, including Scotch &amp; Soda, Mission 2 Vision, Ace of Clubs, and a stint as a Licensing Technician at Sevenoaks District Council.</p>
+        <p>Lost my role in December 2025. Gave myself <strong>six months to replace the income</strong> before the savings ran out.</p>
+        <p>That is not a founder story. That is a constraint set. Constraints build better systems than funding does.</p>
+        <p>The bridge I keep building is between South Africa and the United Kingdom. SA-born network, UK operating address, both passports culturally fluent. I read the room in the language the room is most comfortable in.</p>
+        <div class="lang-row">
+          <span class="lang fluent">English, Native</span>
+          <span class="lang fluent">Afrikaans, Fluent</span>
+          <span class="lang fluent">Zulu, Fluent</span>
+          <span class="lang">Xhosa, B1</span>
+          <span class="lang">Dutch, B1</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-dark volta-block">
+  <div class="container">
+    <div class="r">
+      <div class="eyebrow-wrap">
+        <span class="eyebrow-dot"></span>
+        <span class="eyebrow">05 · The disclosure</span>
+      </div>
+      <p class="volta-body">
+        This site was <span class="teal">not designed</span> by a designer.
+        <span class="muted">It was built autonomously.</span>
+        One paragraph in. <span class="teal">A single session</span> later, this was live.
+      </p>
+      <div class="volta-meta">
+        <div class="item"><div class="l">Author</div><div class="v">Claude Opus, agentic CLI</div></div>
+        <div class="item"><div class="l">Operator</div><div class="v">Tokelo Mogorosi</div></div>
+        <div class="item"><div class="l">Build time</div><div class="v">Single session</div></div>
+        <div class="item"><div class="l">Design system</div><div class="v">DESIGN.md, locked</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-block" id="contact">
+  <div class="cta-inner r">
+    <div class="eyebrow-wrap">
+      <span class="eyebrow-dot"></span>
+      <span class="eyebrow">06 · Talk</span>
+    </div>
+    <h2>Build something <span class="teal">quiet.</span></h2>
+    <p class="lede">Thirty minutes is enough. If there is a fit, the work starts inside a week. If there is not, neither of us has lost an afternoon.</p>
+    <ul class="cta-promises">
+      <li>No deck</li>
+      <li>No discovery questionnaire</li>
+      <li>No pitch slides</li>
+      <li>One call. Plain English. A specific number on the table within fifteen minutes.</li>
+    </ul>
+    <div class="cta-buttons">
+      <a class="btn-primary large" href="mailto:tokelo.mogorosi@gmail.com">Book the call</a>
+      <span class="cta-or">or</span>
+      <a class="btn-ghost" href="https://conversionforge.co.uk" target="_blank" rel="noopener" style="color: #ccc; border-color: #444;">conversionforge.co.uk</a>
+    </div>
+  </div>
+</section>
+
 <footer>
-  <div class="brand-large">FORGE<span>.</span></div>
-  <div class="meta">
-    <div>Tokelo Mogorosi</div>
-    <div>Sevenoaks · Kent · UK</div>
-    <div><a href="https://conversionforge.co.uk">conversionforge.co.uk</a></div>
-    <div><a href="https://www.linkedin.com/in/tokelo-mogorosi-824a27b3/">linkedin · tk</a></div>
-    <div>© 2026 · The autonomous engine</div>
-  </div>
-  <div class="footnote">
-    Conversion Forge is the operating brand of Tokelo Mogorosi. The visual identity, copy, layout, animation, and code on this page were authored by Claude Opus running on the operator's Boardroom Brain. The work is the proof. The medium is the message.
+  <div class="footer-inner">
+    <div class="footer-logo">
+      <div class="logo-mark">F</div>
+      <span class="logo-text" style="color: var(--white);">CONVERSION <span class="accent">FORGE</span></span>
+    </div>
+    <div class="footer-meta">
+      <div>Tokelo Mogorosi, Sevenoaks, Kent, UK</div>
+      <div><a href="https://conversionforge.co.uk">conversionforge.co.uk</a> · <a href="https://www.linkedin.com/in/tokelo-mogorosi-824a27b3/">LinkedIn</a></div>
+      <div>© 2026, the autonomous business engine</div>
+    </div>
   </div>
 </footer>
 
 <script>
-// Reveal on scroll — IntersectionObserver, no GSAP dependency
-const io=new IntersectionObserver((entries)=>{
-  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target)}});
-},{threshold:0.12,rootMargin:'0px 0px -60px 0px'});
-document.querySelectorAll('.r').forEach(el=>io.observe(el));
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); } });
+}, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+document.querySelectorAll('.r').forEach(el => io.observe(el));
 </script>
-
 </body>
 </html>
