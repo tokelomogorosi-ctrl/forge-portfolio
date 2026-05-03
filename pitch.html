@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Conversion Forge</title>
+<style>
+/* ─── Reset ─────────────────────────────────────────────────── */
+*{margin:0;padding:0;box-sizing:border-box}
+
+/* ─── Tokens ─────────────────────────────────────────────────── */
+:root{
+  --black:#080808;
+  --ink:#111111;
+  --orange:#E85D04;
+  --gold:#C9A84C;
+  --offwhite:#F0EDE6;
+  --dim:rgba(240,237,230,0.55);
+  --faint:rgba(240,237,230,0.18);
+  --line:rgba(240,237,230,0.1);
+}
+
+/* ─── Body ───────────────────────────────────────────────────── */
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  background:var(--black);
+  overflow:hidden;
+  width:100vw;height:100vh;
+}
+
+/* ─── SVG noise filter ───────────────────────────────────────── */
+.noise-filter{display:none}
+
+/* ─── Deck / Slide ───────────────────────────────────────────── */
+.deck{width:100vw;height:100vh;position:relative}
+
+.slide{
+  position:absolute;inset:0;
+  opacity:0;transform:translateY(28px);
+  transition:opacity .5s cubic-bezier(.4,0,.2,1),transform .5s cubic-bezier(.4,0,.2,1);
+  pointer-events:none;overflow:hidden;
+}
+.slide.active{opacity:1;transform:translateY(0);pointer-events:all}
+
+/* ─── Grain overlay on dark slides ──────────────────────────── */
+.slide.dark::after,.slide.ink::after{
+  content:'';position:absolute;inset:0;pointer-events:none;z-index:10;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  background-size:180px;opacity:.045;mix-blend-mode:overlay;
+}
+
+/* Slide types */
+.slide.dark{background:var(--black);color:var(--offwhite)}
+.slide.ink{background:var(--ink);color:var(--offwhite)}
+.slide.light{background:var(--offwhite);color:var(--black)}
+.slide.orange-bg{background:var(--orange);color:var(--offwhite)}
+.slide.split-dark{background:var(--black);color:var(--offwhite)}
+
+/* ─── Chrome ────────────────────────────────────────────────── */
+.brand{
+  position:fixed;top:24px;left:36px;
+  font-size:11px;font-weight:800;letter-spacing:.12em;
+  text-transform:uppercase;z-index:500;
+  transition:color .3s;
+}
+.badge{
+  position:fixed;top:24px;right:36px;
+  font-size:10px;font-weight:700;letter-spacing:.16em;
+  text-transform:uppercase;z-index:500;
+  transition:color .3s;
+}
+.bar{position:fixed;top:0;left:0;height:2px;background:var(--orange);transition:width .4s ease;z-index:600}
+
+/* ─── Nav ────────────────────────────────────────────────────── */
+.nav{
+  position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
+  display:flex;align-items:center;gap:10px;z-index:500;
+}
+.nb{
+  background:rgba(240,237,230,0.08);border:1px solid rgba(240,237,230,0.14);
+  color:var(--offwhite);padding:6px 16px;border-radius:100px;
+  cursor:pointer;font-size:12px;backdrop-filter:blur(8px);transition:background .2s;
+}
+.nb:hover{background:rgba(240,237,230,0.16)}
+.nc{color:rgba(240,237,230,0.4);font-size:11px;min-width:48px;text-align:center}
+
+/* ─── Type scale ────────────────────────────────────────────── */
+/* micro label */
+.lbl{
+  font-size:10px;font-weight:700;letter-spacing:.2em;
+  text-transform:uppercase;opacity:.45;margin-bottom:16px;
+  display:block;
+}
+/* display — the heartbeat: thick vs thin */
+.display{
+  font-size:clamp(52px,7.5vw,108px);font-weight:900;
+  line-height:.95;letter-spacing:-.03em;margin-bottom:24px;
+}
+.display .o{color:var(--orange)}
+.display .g{color:var(--gold)}
+.display .thin{font-weight:300;letter-spacing:.01em} /* thick-thin contrast */
+/* hero */
+.hero{
+  font-size:clamp(40px,5.5vw,76px);font-weight:800;
+  line-height:1.03;letter-spacing:-.025em;margin-bottom:20px;
+}
+.hero .o{color:var(--orange)}
+.hero .g{color:var(--gold)}
+/* body */
+.body{font-size:clamp(15px,1.6vw,18px);line-height:1.68;color:var(--dim);max-width:600px}
+/* micro */
+.micro{font-size:12px;line-height:1.6;color:var(--dim)}
+
+/* ─── Diagonal accent ───────────────────────────────────────── */
+.diag{
+  position:absolute;right:0;top:0;bottom:0;
+  width:1px;background:var(--orange);
+  transform-origin:top right;transform:rotate(-8deg) scaleX(1);
+  opacity:.18;
+}
+.diag2{
+  position:absolute;right:120px;top:-20%;bottom:-20%;
+  width:1px;background:var(--gold);
+  transform:rotate(-8deg);
+  opacity:.08;
+}
+
+/* ─── Bleed number (crops off edge — visual tension) ─────────── */
+.bleed-num{
+  position:absolute;right:-0.1em;top:50%;transform:translateY(-50%);
+  font-size:clamp(140px,18vw,240px);font-weight:900;
+  color:var(--orange);opacity:.12;letter-spacing:-.04em;
+  line-height:1;pointer-events:none;user-select:none;
+  white-space:nowrap;
+}
+
+/* ─── Left rail (vertical text) ─────────────────────────────── */
+.rail{
+  position:absolute;left:28px;top:50%;transform:translateY(-50%) rotate(-90deg);
+  font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;
+  opacity:.2;white-space:nowrap;
+}
+
+/* ─── Stat cards ────────────────────────────────────────────── */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:28px}
+.card{
+  background:rgba(240,237,230,0.05);border:1px solid var(--line);
+  border-radius:14px;padding:24px 20px;
+  animation:riseIn .5s ease both;
+}
+.slide.light .card{background:rgba(0,0,0,0.05);border-color:rgba(0,0,0,.09)}
+.card:hover{
+  background:rgba(232,93,4,.1);border-color:rgba(232,93,4,.32);
+  transform:translateY(-2px) rotate(-.3deg); /* slight organic rotation */
+  transition:all .25s ease;
+}
+.cn{
+  font-size:clamp(36px,4vw,52px);font-weight:900;
+  color:var(--orange);line-height:1;margin-bottom:6px;
+}
+.slide.orange-bg .cn{color:var(--offwhite)}
+.cl{font-size:12px;line-height:1.5;opacity:.65}
+
+/* ─── Traction cards ────────────────────────────────────────── */
+.tcards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.tc{
+  background:rgba(37,99,235,.12);border:1px solid rgba(37,99,235,.25);
+  border-radius:12px;padding:20px 16px;animation:riseIn .5s ease both;
+}
+.tn{font-size:clamp(28px,3vw,42px);font-weight:900;color:#4B8EF5;line-height:1;margin-bottom:5px}
+.tl{font-size:11px;line-height:1.45;opacity:.62}
+
+/* ─── VOLTA: quote slide ────────────────────────────────────── */
+.volta-quote{
+  padding:80px 12vw;display:flex;flex-direction:column;
+  justify-content:center;height:100%;
+}
+.quote-mark{
+  font-size:160px;font-weight:900;color:var(--orange);
+  line-height:.8;opacity:.25;margin-bottom:-40px;
+  font-family:Georgia,serif;
+}
+.quote-body{
+  font-size:clamp(28px,3.8vw,52px);font-weight:700;
+  line-height:1.18;letter-spacing:-.02em;
+  color:var(--offwhite);margin-bottom:28px;
+  max-width:820px;
+}
+.quote-body em{color:var(--orange);font-style:normal}
+.quote-attr{
+  font-size:13px;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--gold);opacity:.8;
+  padding-left:4px;
+}
+.orange-rule{
+  width:44px;height:3px;background:var(--orange);
+  border-radius:2px;margin-bottom:28px;
+}
+
+/* ─── Engine grid ───────────────────────────────────────────── */
+.engines{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px}
+.eng{
+  background:rgba(240,237,230,.05);border:1px solid var(--line);
+  border-radius:12px;padding:20px 18px;transition:all .25s ease;
+  position:relative;overflow:hidden;
+}
+.eng::before{
+  content:attr(data-n);position:absolute;right:12px;top:8px;
+  font-size:52px;font-weight:900;color:var(--orange);opacity:.06;
+  line-height:1;
+}
+.eng:hover{background:rgba(232,93,4,.08);border-color:rgba(232,93,4,.28);transform:translateY(-3px)}
+.ei{font-size:22px;margin-bottom:8px}
+.et{font-size:14px;font-weight:700;margin-bottom:5px}
+.ed{font-size:12px;opacity:.58;line-height:1.5}
+
+/* ─── Pricing ───────────────────────────────────────────────── */
+.prices{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:20px}
+.pc{
+  background:rgba(240,237,230,.06);border:1px solid var(--line);
+  border-radius:16px;padding:26px 22px;
+  transition:transform .25s ease;
+}
+.pc:hover{transform:translateY(-4px)}
+.pc.hot{background:var(--orange);border-color:var(--orange)}
+.pt{font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;opacity:.6;margin-bottom:8px}
+.pa{font-size:52px;font-weight:900;line-height:1}
+.pp{font-size:14px;opacity:.5}
+.pd{font-size:12px;opacity:.7;line-height:1.6;margin-top:12px}
+
+/* ─── Tables ────────────────────────────────────────────────── */
+.tbl{width:100%;border-collapse:collapse;margin-top:20px;font-size:13px}
+.tbl th{
+  text-align:left;padding:7px 12px;font-size:9px;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase;opacity:.4;
+  border-bottom:1px solid var(--line);
+}
+.slide.light .tbl th{border-color:rgba(0,0,0,.1);opacity:.4}
+.tbl td{padding:11px 12px;border-bottom:1px solid rgba(240,237,230,.05)}
+.slide.light .tbl td{border-color:rgba(0,0,0,.06)}
+.tbl .ocell{color:var(--orange);font-weight:700}
+.tbl .red{color:#F87171}
+.tbl .totrow td{font-weight:800;border-top:1.5px solid rgba(240,237,230,.2)}
+.slide.light .tbl .totrow td{border-color:rgba(0,0,0,.15)}
+
+.mtbl{width:100%;border-collapse:collapse;margin-top:20px;font-size:12px}
+.mtbl th{text-align:center;padding:6px 8px;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;opacity:.38}
+.mtbl th:first-child{text-align:left}
+.mtbl td{text-align:center;padding:10px 8px;border-bottom:1px solid rgba(240,237,230,.07)}
+.mtbl td:first-child{text-align:left;opacity:.78}
+.mtbl .hero-row td{background:rgba(232,93,4,.1);font-weight:700;color:var(--orange)}
+.ck{color:#4ADE80;font-size:16px}
+.cx{color:rgba(240,237,230,.16);font-size:16px}
+
+/* ─── Before / After ────────────────────────────────────────── */
+.ba-wrap{display:grid;grid-template-columns:1fr 32px 1fr;gap:14px;align-items:center;margin-top:22px}
+.ba{background:rgba(240,237,230,.05);border:1px solid var(--line);border-radius:12px;padding:20px}
+.ba.aft{border-color:rgba(232,93,4,.38);background:rgba(232,93,4,.07)}
+.ba-lbl{font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;opacity:.45;margin-bottom:10px}
+.ba.aft .ba-lbl{color:var(--orange);opacity:1}
+.ba-row{font-size:13px;opacity:.65;margin-bottom:5px;padding-left:14px;position:relative}
+.ba-row::before{content:'—';position:absolute;left:0;opacity:.38}
+.ba.aft .ba-row{opacity:1;font-weight:600}
+.ba.aft .ba-row::before{content:'✓';color:var(--orange);opacity:1}
+.ba-arr{font-size:24px;color:var(--orange);text-align:center}
+
+/* ─── Team ──────────────────────────────────────────────────── */
+.team-wrap{
+  background:rgba(240,237,230,.05);
+  border:1px solid var(--line);
+  border-left:3px solid var(--orange);
+  border-radius:0 14px 14px 0;
+  padding:28px 32px;
+  margin-top:24px;max-width:740px;
+}
+.tname{font-size:20px;font-weight:800;margin-bottom:2px}
+.ttitle{font-size:10px;color:var(--orange);font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:14px}
+.tbio{font-size:14px;line-height:1.75;opacity:.78}
+.tbio strong{color:var(--orange);opacity:1}
+
+/* ─── Cover ─────────────────────────────────────────────────── */
+.cover-meta{display:flex;gap:32px;margin-top:48px;flex-wrap:wrap}
+.cm-item{display:flex;flex-direction:column;gap:3px}
+.cm-lbl{font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;opacity:.35}
+.cm-val{font-size:13px;font-weight:600}
+
+/* ─── Vision ────────────────────────────────────────────────── */
+.v-meta{display:flex;gap:40px;margin-top:32px;flex-wrap:wrap}
+.v-meta span{display:flex;flex-direction:column;gap:2px}
+.vm-l{font-size:9px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;opacity:.38}
+.vm-v{font-size:13px;font-weight:600;opacity:.88}
+
+/* ─── Mbar ──────────────────────────────────────────────────── */
+.mbar{display:flex;gap:24px;margin-top:22px;flex-wrap:wrap}
+.mi{display:flex;flex-direction:column;gap:2px}
+.mv{font-size:30px;font-weight:900;color:var(--orange)}
+.md{font-size:11px;opacity:.55}
+
+/* ─── Why cards ─────────────────────────────────────────────── */
+.why{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:24px}
+.wc{
+  background:rgba(0,0,0,.06);border:1px solid rgba(0,0,0,.09);
+  border-radius:14px;padding:24px 20px;
+  border-top:2px solid transparent;
+  transition:border-color .25s ease;
+}
+.wc:hover{border-top-color:var(--orange)}
+.wc h3{font-size:15px;font-weight:800;color:var(--orange);margin-bottom:10px}
+.wc p{font-size:12px;line-height:1.65;opacity:.72}
+
+/* ─── Slide padding shorthand ───────────────────────────────── */
+.pad{padding:52px 72px}
+.pad-sm{padding:44px 72px}
+
+/* ─── Animations ────────────────────────────────────────────── */
+@keyframes riseIn{
+  from{opacity:0;transform:translateY(14px) rotate(.3deg)}
+  to{opacity:1;transform:translateY(0) rotate(0)}
+}
+@keyframes slideLeft{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes pulseDot{0%,100%{opacity:.6}50%{opacity:1}}
+
+.d1{animation-delay:.07s}
+.d2{animation-delay:.14s}
+.d3{animation-delay:.21s}
+.d4{animation-delay:.28s}
+
+/* Counter animation */
+.count[data-target]{animation:fadeIn .3s ease both}
+
+/* ─── Slide-specific extras ─────────────────────────────────── */
+
+/* Cover: large background word */
+.cover-bg-word{
+  position:absolute;right:-0.05em;bottom:-0.1em;
+  font-size:clamp(160px,20vw,280px);font-weight:900;
+  color:var(--orange);opacity:.04;
+  line-height:1;letter-spacing:-.05em;
+  pointer-events:none;user-select:none;
+}
+
+/* Problem: giant price fills frame */
+.problem-price{
+  font-size:clamp(80px,13vw,180px);font-weight:900;
+  color:var(--orange);line-height:.9;
+  letter-spacing:-.04em;margin-bottom:12px;
+}
+.problem-price .sub-price{
+  font-size:clamp(18px,2vw,26px);font-weight:300;
+  color:var(--dim);letter-spacing:.02em;
+  display:block;margin-top:8px;
+}
+
+/* Solution: tricolon — each line gets its own breath */
+.tricolon{display:flex;flex-direction:column;gap:0}
+.tri-line{
+  font-size:clamp(44px,6.5vw,88px);font-weight:900;
+  line-height:1;letter-spacing:-.03em;
+  padding:10px 0;border-bottom:1px solid var(--line);
+  display:flex;align-items:center;gap:20px;
+}
+.tri-line:last-child{border-bottom:none}
+.tri-num{
+  font-size:clamp(11px,1vw,13px);font-weight:700;
+  letter-spacing:.18em;color:var(--orange);opacity:.7;
+  min-width:24px;
+}
+.tri-accent{color:var(--orange)}
+
+/* Market: number that bleeds */
+.market-num{
+  font-size:clamp(100px,15vw,200px);font-weight:900;
+  color:var(--orange);line-height:.85;
+  letter-spacing:-.04em;
+  /* This intentionally overflows right edge */
+  margin-right:-0.05em;
+}
+
+/* Ask diagonal stripe */
+.ask-stripe{
+  position:absolute;right:-60px;top:-20%;bottom:-20%;
+  width:280px;
+  background:rgba(240,237,230,.04);
+  transform:rotate(-12deg);
+  pointer-events:none;
+}
+
+/* Status dot */
+.live-dot{
+  display:inline-block;width:7px;height:7px;
+  background:var(--orange);border-radius:50%;
+  margin-right:6px;animation:pulseDot 2s infinite;
+  vertical-align:middle;
+}
+</style>
+</head>
+<body>
+
+<div class="brand" id="brandEl">CONVERSION FORGE</div>
+<div class="badge" id="badgeEl"></div>
+<div class="bar" id="bar"></div>
+
+<div class="deck">
+
+<!-- ━━━ 01 COVER ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<div class="slide dark active pad" data-label="2026">
+  <div class="diag"></div><div class="diag2"></div>
+  <div class="cover-bg-word">FORGE</div>
+  <div class="rail">Conversion Forge · Autonomous Business Engine</div>
+
+  <span class="lbl">The Autonomous Business Engine</span>
+  <div class="display">
+    Conversion<br>
+    <span class="thin">Forge.</span>
+  </div>
+  <div class="body" style="max-width:520px">
+    One AI system that replaces every agency a local business
+    pays for — and runs while the owner sleeps.
+  </div>
+
+  <div class="cover-meta">
+    <div class="cm-item"><span class="cm-lbl">Founder</span><span class="cm-val">Tokelo Mogorosi</span></div>
+    <div class="cm-item"><span class="cm-lbl">HQ</span><span class="cm-val">Sevenoaks, Kent</span></div>
+    <div class="cm-item"><span class="cm-lbl">Stage</span><span class="cm-val"><span class="live-dot"></span>Live · Clients paying</span></div>
+    <div class="cm-item"><span class="cm-lbl">Contact</span><span class="cm-val">conversionforge.co.uk</span></div>
+  </div>
+</div>
+
+<!-- ━━━ 02 PROBLEM ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<div class="slide dark pad" data-label="THE PROBLEM">
+  <div class="diag"></div>
+  <!-- Chiaroscuro: the giant price is the light source -->
+  <span class="lbl">The Problem</span>
+  <div class="problem-price">
+    £8,400
+    <span class="sub-price">leaves your account every year in agency fees.<br>Most local businesses have nothing to show for it.</span>
+  </div>
+  <div class="cards" style="margin-top:20px">
+    <div class="card d1">
+      <div class="cn">4+</div>
+      <div class="cl">Separate agency retainers — social, web, copy, leads — that never share a single thought</div>
+    </div>
+    <div class="card d2">
+      <div class="cn">0</div>
+      <div class="cl">Of those agencies share one piece of intelligence about your business</div>
+    </div>
+    <div class="card d3">
+      <div class="cn">5.5M</div>
+      <div class="cl">UK businesses paying this way. Almost none of them need to be.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ━━━ 03 SOLUTION — TRICOLON VOLTA ━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<!-- The volta: stripped bare. Three lines. Nothing else. -->
+<div class="slide dark pad" data-label="THE SOLUTION" style="justify-content:center">
+  <span class="lbl">The Solution</span>
+  <div class="tricolon">
+    <div class="tri-line">
+      <span class="tri-num">01</span>
+      One retainer.
+    </div>
+    <div class="tri-line">
+      <span class="tri-num">02</span>
+      One system.
+    </div>
+    <div class="tri-line" style="color:var(--orange)">
+      <span class="tri-num" style="opacity:.9">03</span>
+      Every engine your business needs.
+    </div>
+  </div>
+  <div class="body" style="margin-top:32px;max-width:580px">
+    Content, outreach, leads, competitor intelligence, and admin —
+    all sharing one memory of your business.
+    It runs overnight. Results appear in the morning.
+  </div>
+</div>
+
+<!-- ━━━ 04 THE ENGINES ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<div class="slide dark pad-sm" data-label="PRODUCT · THE ENGINES">
+  <span class="lbl">Live today · Built in months</span>
+  <div class="hero" style="font-size:clamp(32px,4vw,52px)">The engines.</div>
+  <div class="engines">
+    <div class="eng d1" data-n="01"><div class="ei">✍️</div><div class="et">Content Engine</div><div class="ed">Daily posts, Reels scripts, campaign copy. Generated overnight, posted on schedule. No brief needed.</div></div>
+    <div class="eng d2" data-n="02"><div class="ei">📡</div><div class="et">Outreach Engine</div><div class="ed">Personalised email sequences and follow-ups, timed to protect deliverability. Never manual.</div></div>
+    <div class="eng d3" data-n="03"><div class="ei">🎯</div><div class="et">Lead Intelligence</div><div class="ed">Council registers, Google Places, TripAdvisor — cross-referenced for highest-intent prospects.</div></div>
+    <div class="eng d1" data-n="04"><div class="ei">⭐</div><div class="et">Reputation Monitor</div><div class="ed">Flags every new review. Drafts response within the hour. Owner approves. It sends.</div></div>
+    <div class="eng d2" data-n="05"><div class="ei">🔍</div><div class="et">Competitor Watch</div><div class="ed">Weekly competitor digital scan. You know what they're doing before your customers do.</div></div>
+    <div class="eng d3" data-n="06"><div class="ei">🧾</div><div class="et">Invoice Bot</div><div class="ed">Auto-generates invoices, logs payments, sends reminders. Clients get a PDF. You get paid.</div></div>
+  </div>
+</div>
+
+<!-- ━━━ 05 WHY NOW ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<div class="slide light pad" data-label="WHY NOW">
+  <span class="lbl" style="color:#0A0A0A;opacity:.4">Why Now</span>
+  <div class="hero" style="color:#0A0A0A;font-size:clamp(36px,4.5vw,62px)">
+    Local business is the last market<br>
+    <span class="o">AI hasn't touched yet.</span>
+  </div>
+  <div class="why">
+    <div class="wc d1">
+      <h3>AI is the primitive</h3>
+      <p>A single AI system does in minutes what a four-person agency does in a week. The suite has to be rebuilt around AI — bolting it onto a retainer isn't enough.</p>
+    </div>
+    <div class="wc d2">
+      <h3>Agency fatigue is real</h3>
+      <p>UK SMBs are cutting retainers. They want outcomes, not relationships. The market rewards whoever delivers the result — not whoever invoices the most hours.</p>
+    </div>
+    <div class="wc d3">
+      <h3>The proof already exists</h3>
+      <p>7 Oaks Grill: +99.6% reach in 29 days. Zero ad spend. Nonna Cappuccini: #1 of 23 on TripAdvisor, 18 years, no website. The gap is the pitch.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ━━━ 06 MARKET ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<div class="slide dark pad" data-label="MARKET SIZE">
+  <div class="diag"></div>
+  <span class="lbl">Market Size</span>
+  <!-- Bleed number creates tension against the left-anchored content -->
+  <div class="market-num">£12B</div>
+  <div class="body" style="margin-top:16px">
+    Annual UK SMB marketing and agency spend.<br>Every retainer is up for grabs.
+  </div>
+  <div class="cards" style="grid-template-columns:repeat(3,1fr);margin-top:24px">
+    <div class="card d1"><div class="cn">5.5M</div><div class="cl">UK businesses with under 10 employees — our core wedge</div></div>
+    <div class="card d2"><div class="cn">£3.9M</div><div class="cl">Sevenoaks alone: 2,200 businesses at £150/mo. We are already here.</div></div>
+    <div class="card d3"><div class="cn">£12M</div><div class="cl">ARR at 0.1% of UK SMB spend. We need 30 clients in one postcode.</div></div>
+  </div>
+</div>
+
+<!-- ━━━ 07 VOLTA: THE QUOTE ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<!-- Maximum negative space. Nothing else lives here. -->
+<div class="slide dark" data-label="TRACTION · PROOF" style="background:#0D0D0D">
+  <div class="volta-quote">
+    <div class="quote-mark">"</div>
+    <div class="orange-rule"></div>
+    <div class="quote-body">
+      In 29 days my reach went up <em>99.6%.</em><br>
+      I haven't paid for a single ad.
+    </div>
+    <div class="quote-attr">Onzy &nbsp;·&nbsp; Owner, 7 Oaks Grill, Sevenoaks</div>
+  </div>
+</div>
+
+<!-- ━━━ 08 TRACTION ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<div class="slide light pad-sm" data-label="TRACTION">
+  <span class="lbl" style="color:#0A0A0A;opacity:.4">Traction · Results Documented</span>
+  <div class="hero" style="color:#0A0A0A;font-size:clamp(30px,3.8vw,50px)">
+    Clients paying.<br><span class="o">Results documented.</span>
+  </div>
+  <div class="tcards">
+    <div class="tc d1"><div class="tn" data-target="996">+99.6%</div><div class="tl">Reach for 7 Oaks Grill in 29 days. Zero ad spend. Organic only.</div></div>
+    <div class="tc d2"><div class="tn">#1</div><div class="tl">Nonna Cappuccini on TripAdvisor. 296 reviews. No website ever.</div></div>
+    <div class="tc d3"><div class="tn">18 yrs</div><div class="tl">Nonna traded on word of mouth alone. That gap is the pitch.</div></div>
+    <div class="tc d4"><div class="tn">£0</div><div class="tl">Ad spend behind any result we have ever produced.</div></div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px">
+    <div style="background:rgba(0,0,0,.05);border:1px solid rgba(0,0,0,.08);border-radius:10px;padding:14px 16px;font-size:13px;opacity:.8">
+      <strong style="opacity:1">Persa London</strong> — £150/month, retained. Luxury leather goods. 7 Etsy listings generated autonomously.
+    </div>
+    <div style="background:rgba(0,0,0,.05);border:1px solid rgba(0,0,0,.08);border-radius:10px;padding:14px 16px;font-size:13px;opacity:.8">
+      <strong style="opacity:1">Nonna Cappuccini pipeline</strong> — active. 18-year business, zero digital presence. The gap we walk into.
+    </div>
+  </div>
+</div>
+
+<!-- ━━━ 08.5 NATIVE PRODUCT — WAKATSUKI ━━━━━━━━━━━━━━━━━━━━━━ -->
+<div class="slide dark pad-sm" data-label="NATIVE PRODUCT · 08.5">
+  <div class="diag"></div>
+  <span class="lbl">Native Product · In flight</span>
+  <div class="hero" style="font-size:clamp(36px,4.8vw,68px)">
+    Wakatsuki<br><span class="o">Roast.</span>
+  </div>
+  <div class="body" style="max-width:680px">
+    Brutal AI critique for startup ideas. Twenty critic personas. One verdict.
+    Three seconds. The honest feedback your group chat will not give you.
+    Web, iOS, and Android, one stack. Free for five roasts a week, four ninety-nine
+    a month for unlimited and shareable verdict videos.
+  </div>
+  <div class="cards" style="grid-template-columns:repeat(4,1fr);margin-top:28px">
+    <div class="card d1"><div class="cn">3.2M</div><div class="cl">UK addressable across four ICP tiers</div></div>
+    <div class="card d2"><div class="cn">20</div><div class="cl">Critic personas, sequential, under 3 seconds end to end</div></div>
+    <div class="card d3"><div class="cn">£4.99</div><div class="cl">Pro tier, monthly, unlimited roasts plus video download</div></div>
+    <div class="card d1"><div class="cn">£48K</div><div class="cl">Year-1 ARR target at 5% Pro conversion of 16K users</div></div>
+  </div>
+  <div class="micro" style="margin-top:18px;opacity:.55">
+    The agency engines pay this month. Native products compound for the next decade. Both run from the same operator.
+  </div>
+</div>
+
+<!-- ━━━ 09 BUSINESS MODEL ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<div class="slide dark pad-sm" data-label="BUSINESS MODEL">
+  <span class="lbl">Business Model · Live Today</span>
+  <div class="hero" style="font-size:clamp(30px,3.8vw,50px)">
+    One retainer.<br><span class="o">Every engine included.</span>
+  </div>
+  <div class="prices">
+    <div class="pc d1">
+      <div class="pt">Starter</div>
+      <div class="pa">£75<span class="pp">/mo</span></div>
+      <div class="pd">Social management. 30 posts/month, Reels scripts, hashtag strategy. Visible without lifting a finger.</div>
+    </div>
+    <div class="pc hot d2">
+      <div class="pt" style="opacity:.85">Standard · Most Popular</div>
+      <div class="pa">£299<span class="pp">/mo</span></div>
+      <div class="pd">Content + outreach + leads + competitor watch + monthly report. Everything that grows a business.</div>
+    </div>
+    <div class="pc d3">
+      <div class="pt">Autonomous</div>
+      <div class="pa">£500<span class="pp">/mo</span></div>
+      <div class="pd">All 6 engines running overnight. Owner touches nothing. Results appear in the morning.</div>
+    </div>
+  </div>
+  <div class="mbar">
+    <div class="mi"><div class="mv">70%+</div><div class="md">Target gross margin</div></div>
+    <div class="mi"><div class="mv">£200</div><div class="md">Blended ARPU/month</div></div>
+    <div class="mi"><div class="mv">30 clients</div><div class="md">= £6,000/month. One postcode.</div></div>
+  </div>
+</div>
+
+<!-- ━━━ 10 COMPETITION — WORKFLOW ━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<div class="slide light pad-sm" data-label="COMPETITION · 1 OF 3">
+  <span class="lbl" style="color:#0A0A0A;opacity:.4">Competition · The Actual Problem</span>
+  <div class="hero" style="color:#0A0A0A;font-size:clamp(28px,3.5vw,44px)">
+    To get one new customer,<br>you manage <span class="o">4 agencies.</span>
+  </div>
+  <table class="tbl">
+    <thead>
+      <tr><th>What the owner needs</th><th>Today — fragmented</th><th>Today £/mo</th><th>Conversion Forge</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>More people finding them</td><td>SEO agency + Google Ads</td><td class="red">£800</td><td class="ocell">Outreach Engine · included</td></tr>
+      <tr><td>Content that gets shared</td><td>Social manager + Canva sub</td><td class="red">£600</td><td class="ocell">Content Engine · included</td></tr>
+      <tr><td>Look legitimate online</td><td>Web designer retainer</td><td class="red">£200</td><td class="ocell">One-page site, 48 hours</td></tr>
+      <tr><td>Know what rivals are doing</td><td>Manual or nothing</td><td class="red">£300</td><td class="ocell">Competitor Watch · included</td></tr>
+      <tr><td>Get paid on time</td><td>Chasing by WhatsApp</td><td class="red">£300</td><td class="ocell">Invoice Bot · included</td></tr>
+      <tr class="totrow"><td>Total</td><td>5 vendors · 5 invoices</td><td class="red">£2,200/mo</td><td class="ocell">£299/mo</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ━━━ 11 COMPETITION — MATRIX ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<div class="slide dark pad-sm" data-label="COMPETITION · 2 OF 3">
+  <span class="lbl">Competition</span>
+  <div class="hero" style="font-size:clamp(30px,4vw,56px)">
+    Nobody does this<br><span class="o">for a local business.</span>
+  </div>
+  <table class="mtbl">
+    <thead>
+      <tr><th></th><th>One retainer</th><th>AI-native</th><th>Shared memory</th><th>Built for local</th><th>Runs autonomously</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Traditional agency</td><td class="cx">×</td><td class="cx">×</td><td class="cx">×</td><td class="ck">✓</td><td class="cx">×</td></tr>
+      <tr><td>Freelancer network</td><td class="cx">×</td><td class="cx">×</td><td class="cx">×</td><td class="ck">✓</td><td class="cx">×</td></tr>
+      <tr><td>DIY tools (Canva, Hootsuite)</td><td class="cx">×</td><td class="cx">×</td><td class="cx">×</td><td class="cx">×</td><td class="cx">×</td></tr>
+      <tr><td>AI tools (ChatGPT etc.)</td><td class="cx">×</td><td class="ck">✓</td><td class="cx">×</td><td class="cx">×</td><td class="cx">×</td></tr>
+      <tr class="hero-row"><td>Conversion Forge</td><td>🔥</td><td>🔥</td><td>🔥</td><td>🔥</td><td>🔥</td></tr>
+    </tbody>
+  </table>
+  <div class="micro" style="margin-top:16px;opacity:.45">The incumbents have the relationships. <strong style="color:var(--orange);opacity:1">We have the architecture — and the results.</strong></div>
+</div>
+
+<!-- ━━━ 12 BEFORE / AFTER ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<div class="slide dark pad-sm" data-label="COMPETITION · 3 OF 3">
+  <span class="lbl">The before and after</span>
+  <div class="hero" style="font-size:clamp(32px,4vw,54px)">
+    Same business.<br><span class="o">29 days later.</span>
+  </div>
+  <div class="ba-wrap">
+    <div class="ba">
+      <div class="ba-lbl">Before · 7 Oaks Grill</div>
+      <div class="ba-row">No consistent posting schedule</div>
+      <div class="ba-row">Content created manually, sporadically</div>
+      <div class="ba-row">Reach flat for 12+ months</div>
+      <div class="ba-row">No outreach, no lead system</div>
+      <div class="ba-row">Paying for tools that didn't talk</div>
+    </div>
+    <div class="ba-arr">→</div>
+    <div class="ba aft">
+      <div class="ba-lbl">After · 29 days</div>
+      <div class="ba-row">Daily posts, scheduled autonomously</div>
+      <div class="ba-row">Reels scripts generated overnight</div>
+      <div class="ba-row">+99.6% reach. Zero ad spend.</div>
+      <div class="ba-row">90-day content calendar live</div>
+      <div class="ba-row">Owner touched nothing after day one</div>
+    </div>
+  </div>
+</div>
+
+<!-- ━━━ 13 TEAM ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<div class="slide dark pad" data-label="TEAM">
+  <div class="diag"></div>
+  <span class="lbl">Team</span>
+  <!-- Chiasmus in the headline -->
+  <div class="hero" style="font-size:clamp(34px,4.5vw,62px)">
+    Built by someone<br>who <span class="o">had no other option.</span>
+  </div>
+  <div class="team-wrap">
+    <div class="tname">Tokelo Mogorosi</div>
+    <div class="ttitle">Founder · Director · Operator</div>
+    <div class="tbio">
+      Lost his job in December 2025. Gave himself six months to replace the income.
+      A 3-year-old daughter. A mother with Alzheimer's. A Chromebook. Built a
+      6-engine autonomous business system from scratch. First clients paying within weeks.
+      First results documented within a month.
+      <br><br>
+      That is not a founder story. That is a constraint set.
+      <strong>Constraints build better systems than funding does.</strong>
+    </div>
+  </div>
+</div>
+
+<!-- ━━━ 14 ASK ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<div class="slide orange-bg pad" data-label="THE ASK" style="position:relative;overflow:hidden">
+  <div class="ask-stripe"></div>
+  <div class="diag" style="background:rgba(240,237,230,.15);opacity:1"></div>
+  <span class="lbl" style="opacity:.65">The Ask</span>
+  <!-- Anaphora: "We're not X. We're Y." -->
+  <div class="display" style="color:var(--offwhite)">
+    Not raising.<br>
+    <span style="color:rgba(240,237,230,.35);font-weight:300">Not pitching.</span><br>
+    Signing clients.
+  </div>
+  <div class="body" style="color:rgba(240,237,230,.8);margin-bottom:24px">
+    10 Sevenoaks businesses. £75 to £299 a month. Documented results within 30 days.
+    That proves the model. The model scales to every high street in Kent — then nationally.
+    The system is built. The pipeline is running. The results exist.
+  </div>
+  <div class="cards" style="grid-template-columns:repeat(3,1fr)">
+    <div class="card d1" style="background:rgba(240,237,230,.12);border-color:rgba(240,237,230,.2)">
+      <div class="cn" style="color:var(--offwhite)">10</div>
+      <div class="cl" style="color:rgba(240,237,230,.75)">Clients to prove the model at £75 to £299/mo each</div>
+    </div>
+    <div class="card d2" style="background:rgba(240,237,230,.12);border-color:rgba(240,237,230,.2)">
+      <div class="cn" style="color:var(--offwhite)">30 days</div>
+      <div class="cl" style="color:rgba(240,237,230,.75)">To documented results. Not a quarter. Not 6 months.</div>
+    </div>
+    <div class="card d3" style="background:rgba(240,237,230,.12);border-color:rgba(240,237,230,.2)">
+      <div class="cn" style="color:var(--offwhite)">1</div>
+      <div class="cl" style="color:rgba(240,237,230,.75)">Introduction — one local business owner paying too much for too little</div>
+    </div>
+  </div>
+</div>
+
+<!-- ━━━ 14.5 BUILT AUTONOMOUSLY — THE VOLTA ━━━━━━━━━━━━━━━━━━ -->
+<div class="slide dark pad" data-label="THE DISCLOSURE · 14.5" style="background:#060606;justify-content:center">
+  <div class="diag"></div>
+  <span class="lbl" style="color:var(--orange)">The disclosure</span>
+  <div class="display" style="max-width:1180px;margin-bottom:32px">
+    This deck<br>
+    was <span class="o">not</span> made<br>
+    by a deck-maker.<br>
+    <span class="thin" style="color:var(--gold)">it was built autonomously.</span>
+  </div>
+  <div class="body" style="max-width:760px;margin-bottom:24px">
+    One paragraph in. Forty minutes later, this was live.
+    Author of the layout, copy, animation, and every diagonal accent: Claude Opus,
+    operating on the founder's Boardroom Brain. The work is the proof. The medium is the message.
+  </div>
+  <div class="cover-meta" style="margin-top:24px">
+    <div class="cm-item"><span class="cm-lbl">Author</span><span class="cm-val">Claude Opus · agentic CLI</span></div>
+    <div class="cm-item"><span class="cm-lbl">Operator</span><span class="cm-val">Tokelo Mogorosi</span></div>
+    <div class="cm-item"><span class="cm-lbl">Build time</span><span class="cm-val">single session</span></div>
+    <div class="cm-item"><span class="cm-lbl">Lines of code</span><span class="cm-val">this file</span></div>
+  </div>
+</div>
+
+<!-- ━━━ 15 VISION ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<!-- Maximum negative space. The removal check runs here. -->
+<div class="slide dark pad" data-label="VISION" style="background:#060606">
+  <span class="lbl">The Vision</span>
+  <!-- Anadiplosis: "every high street" ends the hero, echoes in the subline -->
+  <div class="display" style="max-width:800px">
+    The autonomous<br>
+    business engine<br>
+    for every <span class="o">high street</span><br>
+    <span class="thin">in Britain.</span>
+  </div>
+  <div class="body" style="margin-bottom:8px">One retainer. One system. One AI that actually knows your business.</div>
+  <div style="font-size:18px;color:var(--orange);font-weight:800;margin-top:12px;margin-bottom:28px">Let's build it with you.</div>
+  <div class="v-meta">
+    <span><span class="vm-l">Website</span><span class="vm-v">conversionforge.co.uk</span></span>
+    <span><span class="vm-l">Email</span><span class="vm-v">tokelo.mogorosi@gmail.com</span></span>
+    <span><span class="vm-l">Status</span><span class="vm-v"><span class="live-dot"></span>Live · Clients paying · Shipping weekly</span></span>
+  </div>
+</div>
+
+</div><!-- /deck -->
+
+<div class="nav">
+  <button class="nb" onclick="go(-1)">← Prev</button>
+  <span class="nc" id="nc">1 / 15</span>
+  <button class="nb" onclick="go(1)">Next →</button>
+</div>
+
+<script>
+const slides=[...document.querySelectorAll('.slide')];
+const nc=document.getElementById('nc');
+const bar=document.getElementById('bar');
+const badge=document.getElementById('badgeEl');
+const brandEl=document.getElementById('brandEl');
+let cur=0;
+
+function show(n){
+  slides[cur].classList.remove('active');
+  cur=((n%slides.length)+slides.length)%slides.length;
+  const s=slides[cur];
+  s.classList.add('active');
+  nc.textContent=(cur+1)+' / '+slides.length;
+  bar.style.width=((cur+1)/slides.length*100)+'%';
+  badge.textContent=s.dataset.label||'';
+
+  // Adapt chrome colour for light slides
+  const light=s.classList.contains('light');
+  const orange=s.classList.contains('orange-bg');
+  const col=light?'rgba(0,0,0,0.38)':'rgba(240,237,230,0.42)';
+  brandEl.style.color=col; badge.style.color=col;
+  nc.style.color=light?'rgba(0,0,0,0.38)':'rgba(240,237,230,0.38)';
+  // Nav button colours
+  document.querySelectorAll('.nb').forEach(b=>{
+    b.style.background=light?'rgba(0,0,0,0.07)':'rgba(240,237,230,0.08)';
+    b.style.borderColor=light?'rgba(0,0,0,0.12)':'rgba(240,237,230,0.14)';
+    b.style.color=light?'#0A0A0A':'var(--offwhite)';
+  });
+
+  // Re-trigger card animations
+  s.querySelectorAll('.card,.tc,.pc,.ba,.eng,.wc,.team-wrap').forEach((el,i)=>{
+    el.style.animation='none';
+    void el.offsetWidth;
+    el.style.animation='';
+  });
+}
+
+function go(d){show(cur+d)}
+
+// Keyboard navigation
+document.addEventListener('keydown',e=>{
+  if(['ArrowRight','ArrowDown',' '].includes(e.key)){e.preventDefault();go(1)}
+  if(['ArrowLeft','ArrowUp'].includes(e.key)){e.preventDefault();go(-1)}
+});
+
+// Touch swipe
+let tx=0;
+document.addEventListener('touchstart',e=>tx=e.touches[0].clientX,{passive:true});
+document.addEventListener('touchend',e=>{
+  const d=tx-e.changedTouches[0].clientX;
+  if(Math.abs(d)>44)go(d>0?1:-1);
+});
+
+// Initialise
+show(0);
+</script>
+</body>
+</html>
