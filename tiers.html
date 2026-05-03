@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The Tiers, Conversion Forge Studio, T1 to T5 plus app combo</title>
+<meta name="description" content="The Conversion Forge Studio tier ladder. T1 static through T5 immersive plus app combo. Each tier compounds the last. Higgsfield refinement layer applies to every tier." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --teal: #4DD9D5; --teal-dark: #2BB8B4; --teal-light: #F0FFFE; --teal-mid: #E0FAF9;
+  --charcoal: #1A1A1A; --charcoal-deep: #111111; --body: #2D2D2D;
+  --muted: #666; --muted-soft: #999; --hairline: #E8E8E8;
+  --white: #FFFFFF; --light: #F8F8F8;
+  --shadow: 0 4px 24px rgba(0,0,0,0.08);
+  --shadow-lg: 0 12px 48px rgba(0,0,0,0.12);
+  --radius: 12px; --font: 'Inter', system-ui, sans-serif;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--font); color: var(--body); background: var(--white); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+a { color: var(--teal); text-decoration: none; }
+a:hover { color: var(--teal-dark); }
+.container { max-width: 1140px; margin: 0 auto; padding: 0 2rem; }
+
+/* Nav */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(255,255,255,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--hairline); }
+.nav-inner { max-width: 1140px; margin: 0 auto; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+.nav-logo { display: flex; align-items: center; gap: 0.6rem; }
+.logo-mark { width: 32px; height: 32px; border-radius: 8px; background: var(--teal); display: flex; align-items: center; justify-content: center; font-weight: 900; color: var(--charcoal); font-size: 14px; }
+.logo-text { font-size: 1rem; font-weight: 900; letter-spacing: 0.08em; color: var(--charcoal); }
+.logo-text .accent { color: var(--teal); }
+.nav-links { display: flex; align-items: center; gap: 2rem; }
+.nav-links a { color: var(--muted); font-size: 0.9rem; font-weight: 500; transition: color 200ms; }
+.nav-links a:hover { color: var(--teal); }
+.btn-nav { background: var(--teal); color: var(--charcoal) !important; padding: 0.5rem 1.2rem; border-radius: 6px; font-weight: 700 !important; font-size: 0.85rem !important; transition: background 200ms, transform 100ms; }
+.btn-nav:hover { background: var(--teal-dark) !important; transform: translateY(-1px); }
+@media (max-width: 768px) { .nav-links a:not(.btn-nav) { display: none; } }
+
+/* Eyebrow */
+.eyebrow-wrap { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1.25rem; }
+.eyebrow-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--teal); }
+.eyebrow { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); }
+
+/* Type */
+h1.display { font-size: clamp(2.4rem, 5vw, 3.6rem); font-weight: 900; line-height: 1.08; letter-spacing: -0.032em; color: var(--charcoal); margin-bottom: 1.5rem; }
+h2 { font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 900; line-height: 1.15; letter-spacing: -0.03em; margin-bottom: 1rem; color: var(--charcoal); }
+h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--charcoal); line-height: 1.25; }
+.teal { color: var(--teal); }
+.lede { font-size: 1.05rem; color: var(--muted); margin-bottom: 3rem; max-width: 620px; }
+section { padding: 6rem 2rem; }
+
+/* Hero */
+.hero { padding: 8rem 2rem 4rem; }
+.hero-sub { font-size: 1.1rem; color: var(--muted); margin-bottom: 2rem; max-width: 540px; }
+
+/* Tier ladder */
+.tier-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem; margin-top: 3rem;
+}
+.tier-card {
+  background: var(--white); padding: 2.25rem 1.85rem; border-radius: var(--radius);
+  border: 1px solid var(--hairline); box-shadow: var(--shadow);
+  display: flex; flex-direction: column; gap: 1rem; min-height: 360px;
+  position: relative; transition: transform 200ms var(--ease), box-shadow 200ms var(--ease), border-color 200ms;
+  text-decoration: none; color: inherit;
+}
+.tier-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--teal); }
+.tier-card.featured { border-color: var(--teal); }
+.tier-card.featured::before {
+  content: 'Most popular'; position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+  background: var(--teal); color: var(--charcoal);
+  font-size: 0.7rem; font-weight: 700; padding: 0.25rem 0.75rem;
+  border-radius: 20px; white-space: nowrap; letter-spacing: 0.06em;
+}
+.tier-num {
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.18em;
+  color: var(--teal); padding: 0.25rem 0.6rem; background: var(--teal-mid);
+  border-radius: 4px; align-self: flex-start; text-transform: uppercase;
+}
+.tier-card h3 { font-size: 1.4rem; font-weight: 900; line-height: 1.05; letter-spacing: -0.018em; }
+.tier-card .tier-tag { font-size: 0.85rem; color: var(--muted); }
+.tier-card p { font-size: 0.92rem; color: var(--muted); flex: 1; line-height: 1.6; }
+.tier-card ul { list-style: none; font-size: 0.85rem; padding: 0; margin: 0; }
+.tier-card ul li { padding: 0.4rem 0; border-top: 1px solid var(--hairline); display: flex; align-items: flex-start; gap: 0.5rem; color: var(--body); }
+.tier-card ul li:first-child { border-top: 1px solid var(--hairline); }
+.tier-card ul li::before { content: '✓'; color: var(--teal); font-weight: 900; flex-shrink: 0; }
+.tier-card .open {
+  margin-top: auto; font-size: 0.75rem; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--teal); font-weight: 700;
+  display: inline-flex; align-items: center; gap: 0.5rem;
+}
+.tier-card .open::after { content: '→'; transition: transform 200ms; }
+.tier-card:hover .open::after { transform: translateX(4px); }
+
+/* Higgsfield band */
+.higgs-band {
+  background: var(--charcoal-deep); color: var(--white);
+  padding: 5rem 2rem; border-top: 1px solid #222; border-bottom: 1px solid #222;
+}
+.higgs-band h2 { color: var(--white); }
+.higgs-band .lede { color: #aaa; }
+.higgs-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; margin-top: 2rem;
+}
+@media (max-width: 768px) { .higgs-grid { grid-template-columns: 1fr; gap: 2rem; } }
+.higgs-card {
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(77,217,213,0.18);
+  border-radius: 16px; padding: 2rem;
+}
+.higgs-card h3 { color: var(--white); font-size: 1.2rem; margin-bottom: 0.75rem; }
+.higgs-card p { color: #ccc; font-size: 0.9rem; line-height: 1.6; margin-bottom: 1rem; }
+.higgs-stack { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; padding: 0; }
+.higgs-stack li {
+  font-size: 0.85rem; padding: 0.5rem 0.85rem; background: rgba(77,217,213,0.08);
+  border-radius: 6px; color: #ddd; border-left: 2px solid var(--teal);
+}
+.higgs-stack li strong { color: var(--teal); }
+
+/* Section bg */
+.section-soft { background: var(--light); }
+.section-teal-light { background: var(--teal-light); }
+
+/* Footer */
+footer { background: var(--charcoal); padding: 3rem 2rem; }
+.footer-inner { max-width: 1140px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem; }
+.footer-meta { font-size: 0.8rem; color: #555; text-align: right; }
+.footer-meta a { color: var(--teal); }
+@media (max-width: 768px) { .footer-inner { flex-direction: column; text-align: center; } .footer-meta { text-align: center; } }
+
+/* Reveal */
+.r { opacity: 0; transform: translateY(20px); transition: opacity 600ms var(--ease), transform 600ms var(--ease); }
+.r.on { opacity: 1; transform: translateY(0); }
+.r.d1 { transition-delay: 60ms; } .r.d2 { transition-delay: 120ms; } .r.d3 { transition-delay: 180ms; } .r.d4 { transition-delay: 240ms; } .r.d5 { transition-delay: 300ms; }
+@media (prefers-reduced-motion: reduce) { .r { transition: none; opacity: 1; transform: none; } }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo">
+      <div class="logo-mark">F</div>
+      <span class="logo-text">CONVERSION <span class="accent">FORGE</span></span>
+    </div>
+    <div class="nav-links">
+      <a href="index.html">Operator</a>
+      <a href="tiers.html" class="teal">Tiers</a>
+      <a href="pitch.html">Deck</a>
+      <a href="mailto:tokelo.mogorosi@gmail.com" class="btn-nav">Talk to TK</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="container">
+    <div class="r">
+      <div class="eyebrow-wrap">
+        <span class="eyebrow-dot"></span>
+        <span class="eyebrow">CF Studio · The capability ladder</span>
+      </div>
+      <h1 class="display">Five tiers. <span class="teal">One ladder.</span> Every step compounds the last.</h1>
+      <p class="hero-sub">From a static one-pager that works in 48 hours to a fully immersive web plus mobile combo, every tier is built on the same Conversion Forge stack. Pick the rung that fits the business today. Climb when the revenue lets you.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section-soft">
+  <div class="container">
+    <div class="r">
+      <div class="eyebrow-wrap">
+        <span class="eyebrow-dot"></span>
+        <span class="eyebrow">01 · The tiers</span>
+      </div>
+      <h2>What each rung delivers.</h2>
+      <p class="lede">Every tier is built and shipped from one operator. No agency churn. No sub-contractors. The capability climbs, the cadence does not change.</p>
+    </div>
+
+    <div class="tier-grid">
+      <a class="tier-card r" href="https://tokelomogorosi-ctrl.github.io/joshfit-website/" target="_blank" rel="noopener">
+        <span class="tier-num">T1 · Static</span>
+        <h3>The one-pager.</h3>
+        <p class="tier-tag">For businesses that need to exist online by Friday.</p>
+        <ul>
+          <li>Single-page site, hand-built in HTML</li>
+          <li>Mobile-first, sub-second load</li>
+          <li>Form to email, no backend</li>
+          <li>Deployed on Cloudflare Pages</li>
+          <li>Domain configured</li>
+        </ul>
+        <span class="open">See live, Joshfit, Chaplins</span>
+      </a>
+
+      <a class="tier-card r d1" href="https://joshfit-tier-demos.pages.dev/t2/" target="_blank" rel="noopener">
+        <span class="tier-num">T2 · Dynamic</span>
+        <h3>The CMS site.</h3>
+        <p class="tier-tag">For businesses that update prices, schedules, or content weekly.</p>
+        <ul>
+          <li>Scroll-revealed sections, GSAP polish</li>
+          <li>Live booking calendar (mock or real)</li>
+          <li>Owner-editable CMS panel</li>
+          <li>Brevo newsletter capture</li>
+          <li>Parallax hero, micro-interactions</li>
+        </ul>
+        <span class="open">Open T2 demo</span>
+      </a>
+
+      <a class="tier-card featured r d2" href="https://joshfit-tier-demos.pages.dev/t3/" target="_blank" rel="noopener">
+        <span class="tier-num">T3 · Interactive</span>
+        <h3>The conversion machine.</h3>
+        <p class="tier-tag">For businesses ready to take payment online.</p>
+        <ul>
+          <li>3D hero scene, mouse-reactive</li>
+          <li>Stripe deposit flow, member login</li>
+          <li>Animated availability indicators</li>
+          <li>Loyalty card system</li>
+          <li>Staff profiles with live status</li>
+        </ul>
+        <span class="open">Open T3 demo</span>
+      </a>
+
+      <a class="tier-card r d3" href="https://joshfit-tier-demos.pages.dev/t4/" target="_blank" rel="noopener">
+        <span class="tier-num">T4 · Immersive</span>
+        <h3>The flagship.</h3>
+        <p class="tier-tag">For brands that want a category-defining digital home.</p>
+        <ul>
+          <li>Three.js immersive hero</li>
+          <li>AI concierge chat (Groq feel)</li>
+          <li>Service configurator with live quote</li>
+          <li>Silver and Gold member tiers</li>
+          <li>Walk-through 3D environment</li>
+        </ul>
+        <span class="open">Open T4 demo</span>
+      </a>
+
+      <a class="tier-card r d4" href="#contact">
+        <span class="tier-num">T5 · Web + App</span>
+        <h3>The combo.</h3>
+        <p class="tier-tag">For brands that need a native iOS and Android presence on top of T4.</p>
+        <ul>
+          <li>Everything in T4</li>
+          <li>Native iOS app (Expo or React Native)</li>
+          <li>Native Android app, single codebase</li>
+          <li>Push notifications, deep links</li>
+          <li>App Store and Play Store submission</li>
+          <li>Shared backend with the website</li>
+        </ul>
+        <span class="open">Bespoke quote</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Higgsfield refinement layer -->
+<section class="higgs-band">
+  <div class="container">
+    <div class="r">
+      <div class="eyebrow-wrap">
+        <span class="eyebrow-dot"></span>
+        <span class="eyebrow">02 · The refinement layer</span>
+      </div>
+      <h2>Higgsfield. <span class="teal">On every tier.</span></h2>
+      <p class="lede">Every tier is shipped with a visual layer rendered through Higgsfield. Persistent character identity, cinematic stills, short-form video, voice. The site looks like it was art-directed because it was.</p>
+    </div>
+
+    <div class="higgs-grid">
+      <div class="higgs-card r d1">
+        <h3>What Higgsfield does in the stack</h3>
+        <p>Souls lock identity. Marketing Studio renders product shots. Generate-image and generate-video produce hero, gallery, and trailer assets. Voice presence comes from the same stack.</p>
+        <ul class="higgs-stack">
+          <li><strong>Soul</strong>, persistent face, body, energy</li>
+          <li><strong>Marketing Studio</strong>, product shots, ad-style</li>
+          <li><strong>generate_image</strong>, hero, gallery, social</li>
+          <li><strong>generate_video</strong>, 5 to 30 second cinematics</li>
+          <li><strong>media_upload</strong>, reference imagery in</li>
+        </ul>
+      </div>
+
+      <div class="higgs-card r d2">
+        <h3>How it lands per tier</h3>
+        <ul class="higgs-stack">
+          <li><strong>T1</strong>, one Soul-locked hero, three gallery stills</li>
+          <li><strong>T2</strong>, the above + scrolling gallery + one short video loop</li>
+          <li><strong>T3</strong>, the above + one branded explainer video</li>
+          <li><strong>T4</strong>, the above + cinematic trailer + character cameos</li>
+          <li><strong>T5</strong>, the above + onboarding videos baked into the app</li>
+        </ul>
+        <p style="margin-top: 1.5rem; font-size: 0.85rem; color: #888; font-style: italic;">Identity locked once via Soul training, propagated across web, app, and social. One look. Five surfaces. Zero drift.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DESIGN.md note -->
+<section class="section-teal-light">
+  <div class="container">
+    <div class="r">
+      <div class="eyebrow-wrap">
+        <span class="eyebrow-dot"></span>
+        <span class="eyebrow">03 · Brand lock</span>
+      </div>
+      <h2>Every project ships with a <span class="teal">DESIGN.md.</span></h2>
+      <p class="lede">A plain-text design system file that lives in the project root. Any AI agent that touches the project reads it and renders consistent UI. The colours, type, components, and voice are codified, not improvised. The brand cannot drift because the brand is checked into the repo.</p>
+      <p style="margin-top: 1.5rem;">
+        <a href="DESIGN.md" class="teal" style="font-weight: 700; border-bottom: 2px solid var(--teal);">Read the Conversion Forge DESIGN.md →</a>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="background: var(--charcoal-deep); color: var(--white); padding: 6rem 2rem;" id="contact">
+  <div class="container r">
+    <div class="eyebrow-wrap">
+      <span class="eyebrow-dot"></span>
+      <span class="eyebrow">04 · Talk</span>
+    </div>
+    <h2 style="color: var(--white);">Pick the rung.</h2>
+    <p style="color: #aaa; font-size: 1.1rem; max-width: 580px; margin-bottom: 2.5rem;">Thirty minutes. Tell me which tier fits. I will tell you the number, the timeline, and the first asset that will be shipped within the week.</p>
+    <a href="mailto:tokelo.mogorosi@gmail.com" style="background: var(--teal); color: var(--charcoal); padding: 1rem 2.2rem; border-radius: 8px; font-weight: 700; font-size: 1rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem;">Book the call →</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="nav-logo">
+      <div class="logo-mark">F</div>
+      <span class="logo-text" style="color: var(--white);">CONVERSION <span class="accent">FORGE</span></span>
+    </div>
+    <div class="footer-meta">
+      <div>Tokelo Mogorosi, Sevenoaks, Kent, UK</div>
+      <div><a href="https://conversionforge.co.uk">conversionforge.co.uk</a></div>
+      <div>© 2026, the autonomous business engine</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); } });
+}, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+document.querySelectorAll('.r').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
